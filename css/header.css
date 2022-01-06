@@ -1,0 +1,21 @@
+@import url(https://fonts.googleapis.com/css?family=Abril+Fatface);
+
+
+#bannerName {
+  padding-top: 30px; 
+  margin: auto;
+  font-family: 'Abril Fatface', serif;
+  font-size: 100px;
+  letter-spacing: 10px;
+  color: #00754e ;
+  max-width:max-content;
+  justify-content: center;
+  
+}
+
+
+
+body{
+	background-color: #f3e2cb;
+}
+

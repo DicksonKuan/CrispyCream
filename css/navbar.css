@@ -1,0 +1,70 @@
+.navbar-toggler{
+    border: 0;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus{
+    outline: none;
+    box-shadow: none;
+    border: 0;
+}
+
+.toggler-icon{
+    width:30px;
+    height: 3px;
+    background-color: #00754e;
+    display: block;
+    transition: all 0.2s;
+}
+
+.middle-bar{
+    margin: 5px auto;
+}
+
+.navbar-toggler .top-bar{
+    transform: rotate(45deg);
+    transform-origin: 13% 13%;
+}
+
+.navbar-toggler .middle-bar{
+    opacity: 0;
+    filter: alpha(opacity=0)
+}
+
+.navbar-toggler .bottom-bar{
+    transform: rotate(-45deg);
+    transform-origin: 13% 13%;
+}
+
+.navbar-toggler.collapsed .top-bar{
+    transform: rotate(0);
+}
+
+.navbar-toggler.collapsed .middle-bar{
+    opacity: 1;
+    filter: alpha(opacity=100)
+}
+
+.navbar-toggler.collapsed .bottom-bar{
+    transform: rotate(0);
+}
+
+.navbar-toggler.collapsed .toggler-icon{
+    background-color: #00754e;
+}
+
+#navbarOptions {
+	margin: auto;
+	max-width: max-content;
+	justify-content: center;
+	align-items: center;
+	padding-left: 100px;
+	font-family: Lato;
+    padding-bottom: 30px;
+    padding-top: -30px;
+}
+
+.navbar-nav{
+    color:#00754e;
+}
