@@ -1,6 +1,10 @@
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+
 body {
-    font-family : Arial;
+    font-family : Lato;
     font-size : 14px;
+	background-color: #f3e2cb;
 }
 
 .page-title {
@@ -11,9 +15,11 @@ body {
 .cart-header {
 	/*background-color: #0040FF;*/
 	background-color: #017CA7;
-	color: white;
+	color: rgb(0, 0, 0);
 }
 
 .bg-custom {
-	background-color: #017CA7;
+	background-color: #ffffff00;
 }
+
+

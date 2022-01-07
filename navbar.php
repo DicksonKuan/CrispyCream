@@ -1,12 +1,13 @@
+<link rel="stylesheet" href="css/site.css">
 <?php 
 //Display guest welcome message, Login and Registration links
 //when shopper has yet to login,
 $content1 = "Welcome Guest<br />";
 $content2 = "<li class='nav-item'>
-		         <a class='nav-link' href='register.php'>Sign Up</a>
+		         <a class='nav-link' href='register.php' style='color:#00754e'>Sign Up</a>
              </li>
 			 <li class='nav-item'>
-		        <a class='nav-link' href='login.php'>Login</a>
+		        <a class='nav-link' href='login.php' style='color:#00754e'>Login</a>
              </li>";
 
 if(isset($_SESSION["ShopperName"])) { 
@@ -15,11 +16,11 @@ if(isset($_SESSION["ShopperName"])) {
     //after shopper has logged in.
 	$content1 = "welcome <b>$_SESSION[ShopperName]</b>";
     $content2 = "
-        <li class='nav-item'>
-            <a class='nav-link' href='changePassword.php'>Change password</a>
+        <li class='nav-item' style='color:#00754e'>
+            <a class='nav-link' href='changePassword.php' style='color:#00754e'>Change password</a>
         </li>
-        <li class='nav-item'>
-            <a class='nav-link' href='logout.php'>Logout</a>
+        <li class='nav-item' style='color:#00754e'>
+            <a class='nav-link' href='logout.php' style='color:#00754e'>Logout</a>
         </li>
     ";
 
@@ -31,38 +32,49 @@ if(isset($_SESSION["ShopperName"])) {
     }
 }
 ?>
+
 <!-- To Do 3 (Practical 1) - 
      Display a navbar which is visible before or after collapsing -->
-
+<link rel="stylesheet" href="css/navbar.css">
 <nav class="navbar navbar-expand-md bg-custom navbar-dark">
     <!--Dynamic Text display-->
-    <span class="navbar-text ml-md-2" style="color: #F7BE81; max-width:80%;">
+    
+    <span class="navbar-text ml-md-2" style="color: #00754e; max-width:80%;">
         <?php echo $content1;?>
     </span>
+    
     <!--Toggler/ Collapsible button-->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" .navbar-collapse>
+        <span class="toggler-icon top-bar">  </span>
+        <span class="toggler-icon middle-bar"> </span>
+        <span class="toggler-icon bottom-bar"> </span>
+
+    
     </button>
 </nav>
 
 <!-- To Do 4 (Practical 1) - 
      Define a collapsible navbar -->
-<nav class="navbar navbar-expand-md navbar-dark bg-custom">
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+<link rel="stylesheet" href="css/site.css">
+<nav class="navbar navbar-expand-md navbar-dark bg-custom center">
+    <div class="collapse show navbar-collapse mx-auto " id="collapsibleNavbar">
         <!--Collapsible part of navbar-->
-        <ul class="navbar-nav mr-auto">
+        <ul id="navbarOptions" class="navbar-nav mr-auto nav" >
             <li class="nav-item">
-                <a href="category.php" class="nav-link">Product Category</a>
+                <a href="category.php" class="nav-link" style="color: #00754e;" >MENU</a>
             </li>
             <li class="nav-item">
-                <a href="search.php" class="nav-link">Product Search</a>
+                <a href="search.php" class="nav-link" style="color: #00754e;" >SEARCH</a>
             </li>
             <li class="nav-item">
-                <a href="shoppingCart.php" class="nav-link">Shopping Cart</a>
+                <a href="shoppingCart.php" class="nav-link" style="color: #00754e;" >CART</a>
             </li>
         </ul>
+        
+    </div>
+    <div>
         <!--Right-justified menu items-->
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto" style="color: #00754e; max-width:80%;">
             <?php echo $content2;?>
         </ul>
     </div>

@@ -16,12 +16,20 @@
 	<link rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/header.css">
   </head>
 <body>
     <div class="container">
         <!-- 1st Row-->
+        <div class = "banner">
+            <h1 id="bannerName">Crispy Cream</h1>
+        </div>
+
+
+        <!-- 2nd row -->
         <div class="row">
             <div class="col-sm-12">
+                
                 <?php include("navbar.php");?>
             </div>
         </div>
