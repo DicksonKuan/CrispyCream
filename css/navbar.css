@@ -61,10 +61,14 @@
 	align-items: center;
 	padding-left: 100px;
 	font-family: Lato;
-    padding-bottom: 30px;
     padding-top: -30px;
 }
 
 .navbar-nav{
     color:#00754e;
+}
+
+.navbar-text {
+    font-size: 20px;
+    color: #00754e;
 }

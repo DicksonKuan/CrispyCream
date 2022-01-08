@@ -4,10 +4,10 @@
 //when shopper has yet to login,
 $content1 = "Welcome Guest<br />";
 $content2 = "<li class='nav-item'>
-		         <a class='nav-link' href='register.php' style='color:#00754e'>Sign Up</a>
+		         <a class='nav-link' href='register.php' style='color:#00754e'>SIGN UP</a>
              </li>
 			 <li class='nav-item'>
-		        <a class='nav-link' href='login.php' style='color:#00754e'>Login</a>
+		        <a class='nav-link' href='login.php' style='color:#00754e'>LOGIN</a>
              </li>";
 
 if(isset($_SESSION["ShopperName"])) { 
@@ -39,7 +39,7 @@ if(isset($_SESSION["ShopperName"])) {
 <nav class="navbar navbar-expand-md bg-custom navbar-dark">
     <!--Dynamic Text display-->
     
-    <span class="navbar-text ml-md-2" style="color: #00754e; max-width:80%;">
+    <span class="navbar-text ml-md-2" style="color: #00754e;">
         <?php echo $content1;?>
     </span>
     
@@ -74,7 +74,7 @@ if(isset($_SESSION["ShopperName"])) {
     </div>
     <div>
         <!--Right-justified menu items-->
-        <ul class="navbar-nav ml-auto" style="color: #00754e; max-width:80%;">
+        <ul class="navbar-nav ml-auto" style="color: #00754e;">
             <?php echo $content2;?>
         </ul>
     </div>
