@@ -14,7 +14,7 @@ if(isset($_SESSION["ShopperName"])) {
 	//To Do 1 (Practical 2) - 
     //Display a greeting message, Change Password and logout links 
     //after shopper has logged in.
-	$content1 = "welcome <b>$_SESSION[ShopperName]</b>";
+	$content1 = "Welcome <b>$_SESSION[ShopperName]</b>";
     $content2 = "
         <li class='nav-item' style='color:#00754e'>
             <a class='nav-link' href='changePassword.php' style='color:#00754e'>Change password</a>
@@ -61,7 +61,10 @@ if(isset($_SESSION["ShopperName"])) {
         <!--Collapsible part of navbar-->
         <ul id="navbarOptions" class="navbar-nav mr-auto nav" >
             <li class="nav-item">
-                <a href="category.php" class="nav-link" style="color: #00754e;" >MENU</a>
+                <a href="index.php" class="nav-link" style="color: #00754e;" >HOME</a>
+            </li>
+            <li class="nav-item">
+                <a href="category.php" class="nav-link" style="color: #00754e;" >PRODUCTS</a>
             </li>
             <li class="nav-item">
                 <a href="category.php" class="nav-link" style="color: #00754e;" >PRODUCT</a>

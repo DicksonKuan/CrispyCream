@@ -12,16 +12,17 @@
     $password = $_POST["password"];
     $passwordQuestion = $_POST["passwordquestion"];
     $passwordAnswer = $_POST["passwordanswer"];
-    $dateEntered = date('m/d/Y', time());
+    $activeStatus = 1;
+
     //Include the PHP file that establishes database connections handle: $conn
     include_once("mysql_conn.php");
 
     //Define the INSERT SQL statement 
-    $qry = "INSERT INTO Shopper (Name,Birthdate, Address, Country, Phone, Email, Password, PwdQuestion, PwdAnswer, ActiveStatus, DateEntered)
-            VALUES (?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
+    $qry = "INSERT INTO Shopper (Name, Birthdate, Address, Country, Phone, Email, Password, PwdQuestion, PwdAnswer, ActiveStatus)
+            VALUES (?,?,?,?,?,?,?,?,?,?)";
     $stmt = $conn->prepare($qry);
 
-    $stmt->bind_param("sssssssssi", $name, $formattedBirthDate, $address, $country, $phone, $email, $password, $passwordQuestion, $passwordAnswer, 1);
+    $stmt->bind_param("sssssssssi", $name, $formattedBirthDate, $address, $country, $phone, $email, $password, $passwordQuestion, $passwordAnswer, $activeStatus);
 
     if($stmt->execute()){ //SQL Statement executed successfully
     //Retrieve the shopper ID assigned to the new shopper
@@ -32,8 +33,8 @@
     }
 
     //Succesful message and ShopperID
-    $Message = "Registration successful! <br>
-                Your ShopperID is $_SESSION[ShopperID]<br>";
+    $Message = "<span style='color:#00754e'>Registration successful! <br>
+                Your ShopperID is $_SESSION[ShopperID]<br></span>";
     //Save the Shopper Name in a session variable
     $_SESSION["ShopperName"] = $name;
     }
