@@ -17,7 +17,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
 
-// To Do 1:  Display Product information. Starting ....
 while($row = $result->fetch_array()){
     //Display page header - 
     //Product's name is eead from the "ProductionTitle column of "Product" table
