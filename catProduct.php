@@ -57,17 +57,18 @@ if($pageNo == 1){ //Disable previous button if its first page
     echo '<li class="page-item disabled">';
 }else{
     echo '<li class="page-item">';
-    $pageNo = $pageNo -=1;
 }
-$catProductURL= "catProduct.php?cid=$cid&catName=$catName&page=$pageNo";
+$catProductURL= "catProduct.php?cid=$cid&catName=$catName&page=$page";
 echo "<a class='page-link' href=$catProductURL>Previous</a>";
 echo "</li>";
 
 for ($x=1;$x<=3;$x++){
     if($pageNo == $x){
-        echo "<li class='page-item active'><a class='page-link' href='catProduct.php?cid=$cid&catName=$catName&page=$x'>1</a></li>";
+        echo "<li class='page-item active'><a class='page-link' href='catProduct.php?cid=$cid&catName=$catName&page=$x'>$x</a></li>";
+    }else{
+        echo "<li class='page-item'><a class='page-link' href='catProduct.php?cid=$cid&catName=$catName&page=$x'>$x</a></li>";
     }
-    echo "<li class='page-item'><a class='page-link' href='catProduct.php?cid=$cid&catName=$catName&page=$x'>$x</a></li>";
+    
 }
 
 if($pageNo == 3){ //Disable next button if its first page
