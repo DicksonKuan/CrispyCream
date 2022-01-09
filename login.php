@@ -43,7 +43,7 @@ include("header.php");
                   </div>
 
                   <a class="small text-muted" href="#!">Forgot password?</a>
-                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!" style="color: #00754e;">Register here</a></p>
+                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="register.php" style="color: #00754e;">Register here</a></p>
                  
                 </form>
 
