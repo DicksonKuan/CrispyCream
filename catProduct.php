@@ -47,6 +47,7 @@ while($row=$result->fetch_array()){
 	echo "</div>";
 
 	echo "</div>"; // End or row
+
 }
 // To Do:  Ending ....
 

@@ -56,6 +56,11 @@ while($row = $result->fetch_array()){
     $formattedPrice = number_format($row["Price"],2);
     echo "Price:<span style='font-weight:bold; color:red;'>
             S$ $formattedPrice</span>";   
+    
+
+    if($row["Quantity"] == 0){
+        echo "Hello";
+    }
 }
 // To Do 1:  Ending ....
 
