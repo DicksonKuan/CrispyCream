@@ -1,9 +1,16 @@
 <?php
-//Connection Parameters
-$servername = 'localhost:3306';
+//Connection Parameters Dickson
+$servername = 'localhost:3308';
 $username = 'root';
-$userpwd = '';
+$userpwd = 'password';
 $dbname = 'crispycream'; 
+
+
+//Connection Parameters 
+// $servername = 'localhost:3306';
+// $username = 'root';
+// $userpwd = '';
+// $dbname = 'crispycream'; 
 
 // Create connection
 $conn = new mysqli($servername, $username, $userpwd, $dbname);
