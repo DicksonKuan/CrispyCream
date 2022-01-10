@@ -72,7 +72,7 @@ while($row = $result->fetch_array()){
 
     //Card footer
     $catname= urlencode($row["CatName"]);
-    $catproduct = "catProduct.php?cid=$row[CategoryID]&catName=$catname&page=0";
+    $catproduct = "catProduct.php?cid=$row[CategoryID]&catName=$catname&page=1";
     echo "<div class='card-footer'>";
     echo "<a href=$catproduct class='btn btn-primary btn-sm'>View more</a>";
     echo "</div>";
