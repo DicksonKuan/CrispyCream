@@ -48,9 +48,27 @@ if($_POST) //Post Data received from Shopping cart page.
 	}
 	
 	// To Do 1A: Compute GST amount 7% for Singapore, round the figure to 2 decimal places
-	$_SESSION["Tax"] = round($_SESSION["SubTotal"]*0.07,2);
+
+	//get gst amount
+
+
 
 	
+
+	$qry = "SELECT * from gst where EffectiveDate < curdate() order by EffectiveDate DESC limit 1;";
+		
+		
+		$stmt = $conn->prepare($qry);
+
+		$stmt->execute();
+		$result=$stmt->get_result();
+
+		if($result->num_rows > 0){
+			while($row = $result->fetch_array()){
+				// there will only be 1 row since it is limit 1
+				$_SESSION["Tax"] = round($_SESSION["SubTotal"]*($row["TaxRate"]/100),2);
+			}
+		}
 	
 	// To Do 1B: Compute Shipping charge - S$2.00 per trip
 	$_SESSION["ShipCharge"] = 2;
@@ -66,7 +84,7 @@ if($_POST) //Post Data received from Shopping cart page.
 			  '&PAYMENTREQUEST_0_ITEMAMT='.urlencode($_SESSION["SubTotal"]). 
 			  '&PAYMENTREQUEST_0_SHIPPINGAMT='.urlencode($_SESSION["ShipCharge"]). 
 			  '&PAYMENTREQUEST_0_TAXAMT='.urlencode($_SESSION["Tax"]). 	
-			  '&BRANDNAME='.urlencode("Mamaya e-BookStore").
+			  '&BRANDNAME='.urlencode("Crispy Cream").
 			  $paypal_data.				
 			  '&RETURNURL='.urlencode($PayPalReturnURL ).
 			  '&CANCELURL='.urlencode($PayPalCancelURL);	
