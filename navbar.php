@@ -36,6 +36,7 @@ if(isset($_SESSION["ShopperName"])) {
 <!-- To Do 3 (Practical 1) - 
      Display a navbar which is visible before or after collapsing -->
 <link rel="stylesheet" href="css/navbar.css">
+<div class='pb-5'>
 <nav class="navbar navbar-expand-md bg-custom navbar-dark">
     <!--Dynamic Text display-->
     
@@ -79,3 +80,4 @@ if(isset($_SESSION["ShopperName"])) {
         </ul>
     </div>
 </nav>
+</div>

@@ -18,20 +18,63 @@ $result = $stmt->get_result();
 $stmt->close();
 
 while($row = $result->fetch_array()){
-    //Display page header - 
-    //Product's name is eead from the "ProductionTitle column of "Product" table
-    echo "<div class='row'>";
-    echo "<div class='col-sm-12' style ='padding:5px'>";
-    echo "<span class='page-title'>$row[ProductTitle]</span>";
-    echo "</div>";
-    echo "</div>";
-
-    echo "<div class='row'>"; // Start a new row
     
-    //Left column-display the productiojn specification
-    echo "<div class='col-sm-9' styels='padding:5px'>";
-    echo "<p>$row[ProductDesc]</p>";
+    $img = "./img/Products/$row[ProductImage]";
 
+    echo "<div class='row'>";
+
+    //Left side
+    echo "<div class='col-5'>";
+    echo "<p><img src='$img' class='w-100'/></p>";
+    echo "</div>";
+
+    //Right side
+    echo "<div class='col'>";
+    echo "<h2>$row[ProductTitle]</h2>";
+    //To check if there is stock, else display out of stock
+    if($row["Quantity"] != 0){
+        $formattedPrice = number_format($row["Price"],2);
+        $formattedDiscountPrice = number_format($row["OfferedPrice"],2);
+
+        //Price
+        if($row["Offered"] == 1){
+            echo "<h4>Price: S$ <del>$formattedPrice</del>
+            <span style='font-weight:bold; color:red;'> $formattedDiscountPrice</span></h4>";  
+            echo "<p style='color:red'>Sales offer ends on: $row[OfferEndDate]</p>";
+        }else{
+            echo "<h4>Price:<span style='font-weight:bold; color:red;'>
+            S$ $formattedPrice</span></h4>";  
+
+        }
+
+        //Add to cart form
+        echo "<form action='cartFunctions.php' method='POST'>";
+        echo "<div class='row mx-1'>";
+
+        //Request Quantity
+        echo '<div class="input-group flex-nowrap w-25 ">';
+        echo '<div class="input-group-prepend">';
+        echo '<span class="input-group-text" id="addon-wrapping">Quantity</span>';
+        echo '</div>';
+        echo "<input type='number' required class='form-control' style='appearance: textfield;' value=1 min='1' max='10' required aria-describedby='addon-wrapping'>";
+        echo "</div>";
+        echo "</div>";
+
+        echo "<div class='btn-grp mt-5' role='group'>";
+        //Add to cart 
+        echo "<button type='submit' class='btn btn-light'>Add to cart</button>";
+        //Buy now
+        echo "<button type='submit' class='btn btn-light'>Buy now</button>";
+
+        echo "</div>";
+        echo "</form>";
+    }else{
+        echo "<h4><span style='font-weight:bold; color:red;'>SOLD OUT</span></h4>";  
+    }
+
+    //Product description
+    echo "<div class='mt-5'>";
+    echo "<h5>$row[ProductDesc]</h5>";
     $qry ="SELECT s.SpecName, ps.SpecVal FROM productspec ps 
             INNER JOIN specification s ON ps.SpecID=s.SpecID
             WHERE ps.ProductID = ? 
@@ -44,38 +87,16 @@ while($row = $result->fetch_array()){
     while($row2 = $result2->fetch_array()){
         echo $row2["SpecName"].": ".$row2["SpecVal"]."<br>";
     }
-    echo "</div>"; //end of left column
 
-    //Right colmn - Display the product's image
-    $img = "./Images/Products/$row[ProductImage]";
-    echo "<div class='col-sm-3' style='vertical-align:top; padding:5px'>";
-    echo "<p><img src='$img'/></p>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
 
-    //Right column - Display the product's price
-    $formattedPrice = number_format($row["Price"],2);
-    echo "Price:<span style='font-weight:bold; color:red;'>
-            S$ $formattedPrice</span>";   
-    
-
-    if($row["Quantity"] == 0){
-        echo "Hello";
-    }
+   
 }
-// To Do 1:  Ending ....
-
-// To Do 2:  Create a Form for adding the product to shopping cart. Starting ....
-echo "<form action='cartFunctions.php' method='POST'>";
-echo "<input type='hidden' name='action' value='add'/>";
-echo "<input type='hidden' name='product_id' value = '$pid'/>";
-echo "Quantity: <input type='number' name='quantity' value = '1' min='1' max='10' style='width:40px' required/>";
-echo "<button type='submit'>Add to Cart</button>";
-echo "</form>";
-echo "</div>";
-echo "</div>";
-
-// To Do 2:  Ending ....
 
 $conn->close(); // Close database connnection
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer
 ?>
+
