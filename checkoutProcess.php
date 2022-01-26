@@ -67,11 +67,62 @@ if($_POST) //Post Data received from Shopping cart page.
 			while($row = $result->fetch_array()){
 				// there will only be 1 row since it is limit 1
 				$_SESSION["Tax"] = round($_SESSION["SubTotal"]*($row["TaxRate"]/100),2);
+				
 			}
 		}
 	
 	// To Do 1B: Compute Shipping charge - S$2.00 per trip
-	$_SESSION["ShipCharge"] = 2;
+	$radioVal = $_POST["deliveryRadio"];
+	$_SESSION["radioVal"] = $_POST["deliveryRadio"];
+	$_SESSION["phoneNo"] = $_POST["phoneNo"];
+	
+	
+	$_SESSION["msg"] = $_POST["msg"];
+	
+
+	$_SESSION["deliverDate"] = date("Y-m-d");
+	
+
+	$_SESSION["fname"] = $_POST["fname"];
+	
+
+	if ($radioVal == "express" ){
+		//date("H") is now 24 hr HOUR
+		if(date("H") < 10){
+			$_SESSION['deliveryTime'] = "9am - 12noon";
+			$_SESSION['deliveryDate'] = date("Y-m-d");
+		}
+		else if (date("H") < 13){
+			$_SESSION['deliveryTime'] = "12noon - 3pm";
+			$_SESSION['deliveryDate'] = date("Y-m-d");
+		}
+		else if (date("H") < 16){
+			$_SESSION['deliveryTime'] = "3pm - 6pm";
+			$_SESSION['deliveryDate'] = date("Y-m-d");
+		}
+		else{
+			$_SESSION['deliveryTime'] = "9am - 12noon";
+			$_SESSION['deliveryDate'] = date("Y-m-d", strtotime("+1 day")) ;
+		}
+	}
+
+
+	
+	
+	// $radioVal = $_POST["deliveryRadio"];
+
+	if($radioVal == 'express')
+	{
+		//debug_to_console("express");
+		$_SESSION["ShipCharge"] = 5;
+	}
+	else if ($radioVal == 'normal')
+	{
+		
+		$_SESSION["ShipCharge"] = 2;
+	}
+
+	//$_SESSION["ShipCharge"] = 2;
 	
 	//Data to be sent to PayPal
 	$padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).
@@ -153,122 +204,161 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	                                   $PayPalApiUsername, $PayPalApiPassword, 
 									   $PayPalApiSignature, $PayPalMode);
 	
+
+
+	// $transactionID = urlencode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
+	// $nvpStr = "&TRANSACTIONID=".$transactionID;
+	// $httpParsedResponseAr = PPHttpPost('GetTransactionDetails', $nvpStr, 
+	// 						$PayPalApiUsername, $PayPalApiPassword, 
+	// 						$PayPalApiSignature, $PayPalMode);
 	//Check if everything went ok..
 	if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 	   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 	{
-		// To Do 5 (DIY): Update stock inventory in product table 
-		//                after successful checkout
-		$qry = "SELECT * FROM shopcartitem WHERE ShopCartID = ?";
-
-		$stmt = $conn->prepare($qry);
-
-		$stmt->bind_param("i", $_SESSION["cart"]);
-		$stmt->execute();
-		$result=$stmt->get_result();
-
-		if($result->num_rows > 0){
-			while($row = $result->fetch_array()){
-				$qry2 = 'UPDATE Product Set Quantity = ? WHERE ProductID = ?';
-				$stmt2 = $conn->prepare($qry2);
-				$stmt2->bind_param("dd", $row["Quantity"], $row["ProductID"]);
-				$stmt2->execute();
-				$stmt2->close();
-			}
-		}
-
-		$stmt->close();
-		//$conn->close();
-
-
-		// End of To Do 5
-	
-		// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
-		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
-		$qry = 'UPDATE Shopcart SET OrderPlaced=1, Quantity=?, SubTotal=?, ShipCharge=?, Tax=?, Total=?
-				WHERE ShopCartID=?';
 		
-		$stmt = $conn->prepare($qry);
-
-		$stmt->bind_param("iddddi", $_SESSION["NumCartItem"], 
-						$_SESSION["SubTotal"], $_SESSION["ShipCharge"],
-						$_SESSION["Tax"], $total,
-						$_SESSION["Cart"]);
-
-		$stmt->execute();
-		$stmt->close();
-
-		// End of To Do 2
 		
-		//We need to execute the "GetTransactionDetails" API Call at this point 
-		//to get customer details
-		$transactionID = urlencode(
-		                 $httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
-		$nvpStr = "&TRANSACTIONID=".$transactionID;
-		$httpParsedResponseAr = PPHttpPost('GetTransactionDetails', $nvpStr, 
-		                                   $PayPalApiUsername, $PayPalApiPassword, 
-										   $PayPalApiSignature, $PayPalMode);
+		//$ShipCountry = "Singapore";
 
-		if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
-		   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
-		   {
-			//gennerate order entry and feed back orderID information
-			//You may have more information for the generated order entry 
-			//if you set those information in the PayPal test accounts.
+		if (TRUE){
 			
-			$ShipName = addslashes(urldecode($httpParsedResponseAr["SHIPTONAME"]));
-			
-			$ShipAddress = urldecode($httpParsedResponseAr["SHIPTOSTREET"]);
-			if (isset($httpParsedResponseAr["SHIPTOSTREET2"]))
-				$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTREET2"]);
-			if (isset($httpParsedResponseAr["SHIPTOCITY"]))
-			    $ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCITY"]);
-			if (isset($httpParsedResponseAr["SHIPTOSTATE"]))
-			    $ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTATE"]);
-			$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCOUNTRYNAME"]). 
-			                ' '.urldecode($httpParsedResponseAr["SHIPTOZIP"]);
-				
-			$ShipCountry = urldecode(
-			               $httpParsedResponseAr["SHIPTOCOUNTRYNAME"]);
-			
-			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
-			
-			// To Do 3: Insert an Order record with shipping information
-			//          Get the Order ID and save it in session variable.
-			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry, ShipEmail, ShopCartID)
-					VALUE(?,?,?,?,?)";
+			// To Do 5 (DIY): Update stock inventory in product table 
+			//                after successful checkout
+			$qry = "SELECT * FROM shopcartitem WHERE ShopCartID = ?";
 
 			$stmt = $conn->prepare($qry);
 
-			$stmt->bind_param("ssssi", $ShipName, $ShipAddress, $ShipCountry, $ShipEmail, $_SESSION["Cart"]);
-				
+			$stmt->bind_param("i", $_SESSION["cart"]);
+			$stmt->execute();
+			$result=$stmt->get_result();
+
+			if($result->num_rows > 0){
+				while($row = $result->fetch_array()){
+					$qry2 = 'UPDATE Product Set Quantity = ? WHERE ProductID = ?';
+					$stmt2 = $conn->prepare($qry2);
+					$stmt2->bind_param("dd", $row["Quantity"], $row["ProductID"]);
+					$stmt2->execute();
+					$stmt2->close();
+				}
+			}
+
+			$stmt->close();
+			//$conn->close();
+
+
+			// End of To Do 5
+		
+			// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
+			$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
+			$qry = 'UPDATE Shopcart SET OrderPlaced=1, Quantity=?, SubTotal=?, ShipCharge=?, Tax=?, Total=?
+					WHERE ShopCartID=?';
+			
+			$stmt = $conn->prepare($qry);
+
+			$stmt->bind_param("iddddi", $_SESSION["NumCartItem"], 
+							$_SESSION["SubTotal"], $_SESSION["ShipCharge"],
+							$_SESSION["Tax"], $total,
+							$_SESSION["Cart"]);
+
 			$stmt->execute();
 			$stmt->close();
-			$qry = "SELECT LAST_INSERT_ID() AS OrderID";
-			$result = $conn->query($qry);
-			$row = $result->fetch_array();
-			$_SESSION["OrderID"] = $row["OrderID"];
 
-
-			// End of To Do 3
-				
-			//$conn->close();
-				  
-			// To Do 4A: Reset the "Number of Items in Cart" session variable to zero.
-			$_SESSION["NumCartItem"] = 0;
-	  		
-			// To Do 4B: Clear the session variable that contains Shopping Cart ID.
-			unset($_SESSION["Cart"]);
+			// End of To Do 2
 			
-			// To Do 4C: Redirect shopper to the order confirmed page.
-			header("Location: orderConfirmed.php");
-			exit;
-		} 
+			//We need to execute the "GetTransactionDetails" API Call at this point 
+			//to get customer details
+
+			$transactionID = urlencode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
+			$nvpStr = "&TRANSACTIONID=".$transactionID;
+			$httpParsedResponseAr = PPHttpPost('GetTransactionDetails', $nvpStr, 
+								  $PayPalApiUsername, $PayPalApiPassword, 
+								  $PayPalApiSignature, $PayPalMode);
+
+					
+
+			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
+			"SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
+			{
+				//gennerate order entry and feed back orderID information
+				//You may have more information for the generated order entry 
+				//if you set those information in the PayPal test accounts.
+				
+				$ShipName = addslashes(urldecode($httpParsedResponseAr["SHIPTONAME"]));
+				
+				$ShipAddress = urldecode($httpParsedResponseAr["SHIPTOSTREET"]);
+				if (isset($httpParsedResponseAr["SHIPTOSTREET2"]))
+					$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTREET2"]);
+				if (isset($httpParsedResponseAr["SHIPTOCITY"]))
+					$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCITY"]);
+				if (isset($httpParsedResponseAr["SHIPTOSTATE"]))
+					$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTATE"]);
+				$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCOUNTRYNAME"]). 
+								' '.urldecode($httpParsedResponseAr["SHIPTOZIP"]);
+					
+				$ShipCountry = urldecode($httpParsedResponseAr["SHIPTOCOUNTRYNAME"]);
+				
+				$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
+
+
+				if ($ShipCountry == "Singapore"){
+					$qry = "INSERT INTO orderdata (ShopCartID, ShipName, ShipAddress, ShipCountry,ShipPhone,
+												 ShipEmail, BillName, BillAddress, BillCountry, BillPhone, BillEmail,
+												  DeliveryDate, DeliveryTime, DeliveryMode, Message, DateOrdered) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+					$stmt = $conn->prepare($qry);
+
+					$stmt-> bind_param("isssssssssssssss", $_SESSION["Cart"], $ShipName, $ShipAddress, $ShipCountry, $_SESSION["phoneNo"], $ShipEmail,$_SESSION["fname"],$ShipAddress, $ShipCountry, $_SESSION["phoneNo"], $ShipEmail, $_SESSION['deliverDate'], $_SESSION['deliveryTime'], $_SESSION['radioVal'], $_SESSION['msg'], $_SESSION['deliverDate']);
+						
+					$stmt->execute();
+					$stmt->close();
+					$qry = "SELECT LAST_INSERT_ID() AS OrderID";
+					$result = $conn->query($qry);
+					$row = $result->fetch_array();
+					$_SESSION["OrderID"] = $row["OrderID"];
+
+
+					// End of To Do 3
+						
+					//$conn->close();
+						
+					// To Do 4A: Reset the "Number of Items in Cart" session variable to zero.
+					$_SESSION["NumCartItem"] = 0;
+					
+					// To Do 4B: Clear the session variable that contains Shopping Cart ID.
+					unset($_SESSION["Cart"]);
+					
+					// To Do 4C: Redirect shopper to the order confirmed page.
+					header("Location: orderConfirmed.php");
+					exit;
+				}
+				
+				// To Do 3: Insert an Order record with shipping information
+				//          Get the Order ID and save it in session variable.
+
+				else{
+					echo "<div style='color:red'><b>Im sorry we currently do not send to this country!</b></div>";
+				//echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
+				//$conn->close();
+				}
+
+		
+
+				
+			} 
+			
+			else 
+			{
+				echo "<div style='color:red'><b>GetTransactionDetails failed:</b>".
+			                urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]).'</div>';
+				echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
+			}
+		}
+
+		
+
 		else 
 		{
-		    echo "<div style='color:red'><b>GetTransactionDetails failed:</b>".
-			                urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]).'</div>';
-			echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
+		    echo "<div style='color:red'><b>Im sorry we currently do not send to this country!</b></div>";
+			//echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
 			//$conn->close();
 		}
 	}
@@ -281,3 +371,4 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 include("footer.php"); // Include the Page Layout footer
 ?>
+
