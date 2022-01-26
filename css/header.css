@@ -19,3 +19,12 @@ body{
 	background-color: #f3e2cb;
 }
 
+#logo{
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+  height: auto;
+
+}
