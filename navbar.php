@@ -65,7 +65,10 @@ if(isset($_SESSION["ShopperName"])) {
                 <a href="index.php" class="nav-link" style="color: #00754e;" >HOME</a>
             </li>
             <li class="nav-item">
-                <a href="category.php" class="nav-link" style="color: #00754e;" >PRODUCTS</a>
+                <a href="category.php" class="nav-link" style="color: #00754e;" >PRODUCT CATEGORY</a>
+            </li>
+            <li class="nav-item">
+                <a href="product.php" class="nav-link" style="color: #00754e;" >PRODUCTS</a>
             </li>
             <li class="nav-item">
                 <a href="shoppingCart.php" class="nav-link" style="color: #00754e;" >CART</a>
