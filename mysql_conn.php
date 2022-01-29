@@ -1,10 +1,15 @@
 <?php
 //Connection Parameters Dickson
-$servername = 'localhost:3308';
+// $servername = 'localhost:3308';
+// $username = 'root';
+// $userpwd = 'password';
+// $dbname = 'crispycream'; 
+
+//Ethan Connection Parameters 
+$servername = 'localhost:3306';
 $username = 'root';
 $userpwd = 'password';
 $dbname = 'crispycream'; 
-
 
 //Connection Parameters 
 // $servername = 'localhost:3306';

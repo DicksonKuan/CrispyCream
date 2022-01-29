@@ -2,6 +2,8 @@
 //Detect the current session
 session_start();
 // Include the page layout header
+unset($_SESSION["SuccessMessage"]);
+unset($_SESSION["ErrorMessage"]);
 include("header.php");
 ?>
 <section class="vh-80">
@@ -42,7 +44,7 @@ include("header.php");
                     <button type="submit" class="btn btn-lg btn-block" type="button" style="background-color:#00754e; color:white;">Login</button>
                   </div>
 
-                  <a class="small text-muted" href="#!">Forgot password?</a>
+                  <a class="small text-muted" href="forgetPassword.php">Forgot password?</a>
                   <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="register.php" style="color: #00754e;">Register here</a></p>
                  
                 </form>
