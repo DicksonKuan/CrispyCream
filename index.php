@@ -3,7 +3,6 @@
 session_start();
 // Include the Page Layout header
 include("header.php"); 
-
 ?>
 <link rel="stylesheet" href="css/site.css">
 <h5 style="color:#00754e; text-align:center">

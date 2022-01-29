@@ -17,8 +17,11 @@ if(isset($_SESSION["ShopperName"])) {
 	$content1 = "Welcome <b>$_SESSION[ShopperName]</b>";
     $content2 = "
         <li class='nav-item' style='color:#00754e'>
-            <a class='nav-link' href='changePassword.php' style='color:#00754e'>CHANGE PASSWORD</a>
+            <a class='nav-link' href='update.php' style='color:#00754e'>UPDATE PROFILE</a>
         </li>
+        <li class='nav-item' style='color:#00754e'>
+        <a class='nav-link' href='changePassword.php' style='color:#00754e'>CHANGE PASSWORD</a>
+    </li>
         <li class='nav-item' style='color:#00754e'>
             <a class='nav-link' href='logout.php' style='color:#00754e'>LOGOUT</a>
         </li>
@@ -67,14 +70,9 @@ if(isset($_SESSION["ShopperName"])) {
                 <li class="nav-item">
                     <a href="shoppingCart.php" class="nav-link" style="color: #00754e;" >CART</a>
                 </li>
-            </ul>
-            
-        </div>
-        <div>
-            <!--Right-justified menu items-->
-            <ul class="navbar-nav ml-auto" style="color: #00754e;">
                 <?php echo $content2;?>
             </ul>
         </div>
+        
     </nav>
 </div>

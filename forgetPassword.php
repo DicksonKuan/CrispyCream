@@ -3,8 +3,12 @@
 session_start();
 // Include the page layout header
 include("header.php");
-unset($_SESSION["SuccessMessage"]);
-unset($_SESSION["ErrorMessage"]);
+if (isset($_SESSION["SuccessMessage"])) {
+    unset($_SESSION["SuccessMessage"]);
+}
+if (isset($_SESSION["ErrorMessage"])) {
+    unset($_SESSION["ErrorMessage"]);
+}
 ?>
 <section class="vh-80">
   <div class="container-fluid py-5">
