@@ -22,7 +22,7 @@ if($_POST) //Post Data received from Shopping cart page.
 
 		if($result->num_rows > 0){
 			while($row = $result->fetch_array()){
-				if ($row["Quantity"] < $item["quantity"]){
+				if ($row["Quantity"] < 20){
 					echo "Product $item[productId] : $item[name] is out of stock!<br />";
 					echo "Please return to shopping cart to amend your purchase.<br />";
 					include("footer.php");
@@ -34,6 +34,46 @@ if($_POST) //Post Data received from Shopping cart page.
 		$stmt->close();
 		//$conn->close();
 	}
+
+
+	$qty = 0;
+  //$array = json_decode(json_encode($_SESSION["Items"]), true);
+    $qry = "SELECT * FROM shopcartitem WHERE ShopCartID = ?";
+
+        $stmt = $conn->prepare($qry);
+
+        $stmt->bind_param("i", $_SESSION["Cart"]);
+        $stmt->execute();
+        $result=$stmt->get_result();
+
+        if($result->num_rows > 0){
+            while($row = $result->fetch_array()){
+                $qry = "SELECT Quantity FROM product WHERE ProductID = ?";
+                $stmt = $conn->prepare($qry);
+                $stmt->bind_param("i", $row["ProductID"]);
+                if ($stmt->execute()){
+                    $stmt->bind_result($qty);
+                    while ($stmt->fetch()) {
+                        $a = array('Quantity' => $qty);
+                    }
+                    $stmt->close();
+                    if ($row["Quantity"] > $qty){
+                        $a = $row["ProductID"];
+                        $b = $row["Name"];
+                        echo "Product $a : $b is out of stock!<br />";
+                        echo "Please return to shopping cart to amend your purchase. <br />";
+						echo "<a href='index.php'>Continue shopping</a></p>";
+
+                        // echo $row["Quantity"];
+                        include("footer.php");
+                        exit;
+                    }
+
+                }
+        
+        }
+
+		}
 	
 	// End of To Do 6
 	
@@ -75,9 +115,13 @@ if($_POST) //Post Data received from Shopping cart page.
 	$radioVal = $_POST["deliveryRadio"];
 	$_SESSION["radioVal"] = $_POST["deliveryRadio"];
 	$_SESSION["phoneNo"] = $_POST["phoneNo"];
+
+	$_SESSION["shipAddress"] = $_POST["address"];
 	
 	
 	$_SESSION["msg"] = $_POST["msg"];
+
+	$_SESSION["email"] = $_POST["email"];
 	
 
 	$_SESSION["deliverDate"] = date("Y-m-d");
@@ -104,6 +148,10 @@ if($_POST) //Post Data received from Shopping cart page.
 			$_SESSION['deliveryTime'] = "9am - 12noon";
 			$_SESSION['deliveryDate'] = date("Y-m-d", strtotime("+1 day")) ;
 		}
+	}
+	else if ($radioVal == "normal" ){
+		$_SESSION['deliveryTime'] = date("Y-m-d", strtotime("+1 day")) ;
+		$_SESSION['deliveryDate'] = date("Y-m-d", strtotime("+1 day")) ;
 	}
 
 
@@ -227,13 +275,13 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 			$stmt = $conn->prepare($qry);
 
-			$stmt->bind_param("i", $_SESSION["cart"]);
+			$stmt->bind_param("i", $_SESSION["Cart"]);
 			$stmt->execute();
 			$result=$stmt->get_result();
 
 			if($result->num_rows > 0){
 				while($row = $result->fetch_array()){
-					$qry2 = 'UPDATE Product Set Quantity = ? WHERE ProductID = ?';
+					$qry2 = 'UPDATE Product Set Quantity = Quantity-? WHERE ProductID = ?';
 					$stmt2 = $conn->prepare($qry2);
 					$stmt2->bind_param("dd", $row["Quantity"], $row["ProductID"]);
 					$stmt2->execute();
@@ -242,6 +290,9 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			}
 
 			$stmt->close();
+
+
+			
 			//$conn->close();
 
 
@@ -306,7 +357,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 					$stmt = $conn->prepare($qry);
 
-					$stmt-> bind_param("isssssssssssssss", $_SESSION["Cart"], $ShipName, $ShipAddress, $ShipCountry, $_SESSION["phoneNo"], $ShipEmail,$_SESSION["fname"],$ShipAddress, $ShipCountry, $_SESSION["phoneNo"], $ShipEmail, $_SESSION['deliverDate'], $_SESSION['deliveryTime'], $_SESSION['radioVal'], $_SESSION['msg'], $_SESSION['deliverDate']);
+					$stmt-> bind_param("isssssssssssssss", $_SESSION["Cart"], $_SESSION["fname"], $_SESSION["shipAddress"], $ShipCountry, $_SESSION["phoneNo"], $_SESSION["email"],$ShipName,$ShipAddress, $ShipCountry, $_SESSION["phoneNo"], $ShipEmail, $_SESSION['deliverDate'], $_SESSION['deliveryTime'], $_SESSION['radioVal'], $_SESSION['msg'], $_SESSION['deliverDate']);
 						
 					$stmt->execute();
 					$stmt->close();
@@ -371,4 +422,5 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 include("footer.php"); // Include the Page Layout footer
 ?>
+
 
