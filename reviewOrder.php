@@ -19,6 +19,8 @@ include("mysql_conn.php");
 //for testing
 $_SESSION["ShopperID"] = 1;
 $_SESSION["Cart"] = 1;
+
+
 $deliveryOption = "";
 function checkdelivery($src){
     echo '<script>alert("Welcome to Geeks for Geeks")</script>';
@@ -187,7 +189,15 @@ echo "<br />";
 
 echo "<label for='phoneNo'>Phone Number</label>";
 echo "<input type='tel' name='phoneNo' id='phoneNo' required placeholder='91234567' pattern='[8-9][0-9]{7}'/>";
+echo "<br />";
+echo "<label for='address'>Address</label>";
+echo "<input type='text' name='address' id='address' required />";
 
+echo "<br />";
+echo "<label for='email'>Email</label>";
+echo "<input type='text' name='email' id='email' required />";
+
+echo "<br />";
 echo "<label for='msg'>Send a message!</label>";
 echo "<br />";
 
@@ -215,5 +225,7 @@ echo "</div>";
 include ("footer.php");
 
 ?>
+
+
 
 
