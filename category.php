@@ -11,9 +11,9 @@ include("header.php"); // Include the Page Layout header
         <p>Select a category listed below:</p>
     </div>
 </div> <!-- End of header row -->
-
-
-
+<style>
+    
+</style>
 <?php 
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
