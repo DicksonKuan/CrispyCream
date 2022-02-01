@@ -41,7 +41,8 @@ if(isset($_GET['productSearch']) && trim($_GET['productSearch']) != ""){
             OR product.ProductDesc LIKE '%$keyword%'"; 
 }
 
-$result = $conn->query($qry);       //Execute the SQL and get the result
+//Execute the SQL and get the result
+$result = $conn->query($qry);       
 $counter = 1;
 
 //Fill in content into card
@@ -57,13 +58,25 @@ if($result->num_rows> 0){
         echo '<div class="card" style="width: 18rem;">';
         echo "<img class='card-img-top' src=$img alt='$row[ProductTitle]'>";
         echo '<div class="card-body">';
-        echo "<h3 class='card-title'>$row[ProductTitle]</h5>";
+        echo "<a href='$productURL'><h3 class='card-title'>$row[ProductTitle]</h5></a>";
         if($row["Quantity"]=="0"){
             echo "<p class='card-text' style='font-size: 1.2rem; color: red;'>SOLD OUT</p>";
         }else{
-            echo "<p class='card-text' style='font-size: 1.2rem;'>SGD$ $row[Price]</p>";
+            if($row["Offered"] == 1){
+                $formattedPrice = number_format($row["Price"],2);
+                $formattedDiscountPrice = number_format($row["OfferedPrice"],2);
+                echo "<h4>Price: S$ <del>$formattedPrice</del>
+                        <span style='font-weight:bold; color:red;'> $formattedDiscountPrice</span></h4>";  
+                echo "<p style='color:red'>Sales offer ends on: $row[OfferEndDate]</p>";
+            }else{
+                echo "<p class='card-text' style='font-size: 1.2rem;'>SGD$ $row[Price]</p>";
+            }
+            echo '<div class="btn-group" role="group" aria-label="Basic example">';
+            echo "<a href='$productURL' class='btn btn-primary'>Add To cart</a>";
+            echo "<a href='$productURL' class='btn btn-primary'>Buy now</a>";
+            echo "</div>";
         }
-        echo "<a href='$productURL' class='btn btn-primary'>View more</a>";
+        
         echo "</div></div>";
         if(($counter%3)==0){
             echo "</div>";
