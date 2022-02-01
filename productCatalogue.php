@@ -5,7 +5,7 @@ include("header.php"); // Include the Page Layout header
 <!-- Create a container, 60% width of viewport -->
 <div style="width:100%; margin:auto;">
 <style>
-    a:hover{
+    .card:hover{
         border: 3px dotted #ff7a59;
     }
 </style>
