@@ -23,6 +23,10 @@ include("header.php"); // Include the Page Layout header
         background-color: #ffe0b4;
         color: black;
     }
+    .input-group-text{
+        background-color: #00754e;
+        color:white;
+    }
 </style>
 
 <form action="" method="GET" name="productSearch">
@@ -81,7 +85,7 @@ if($result->num_rows> 0){
                 $formattedPrice = number_format($row["Price"],2);
                 $formattedDiscountPrice = number_format($row["OfferedPrice"],2);
                 echo "<h4>Price: S$ <del>$formattedPrice</del>
-                        <span style='font-weight:bold; color:red;'> $formattedDiscountPrice</span></h4>";  
+                        <span style='color:red;'> $formattedDiscountPrice</span></h4>";  
                 echo "<p style='color:red'>Sales offer ends on: $row[OfferEndDate]</p>";
             }else{
                 echo "<p class='card-text' style='font-size: 1.2rem;'>SGD$ $row[Price]</p>";
