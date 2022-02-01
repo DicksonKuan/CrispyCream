@@ -34,8 +34,11 @@ if(isset($_GET['productSearch']) && trim($_GET['productSearch']) != ""){
     //Search query
     $keyword = $_GET['productSearch'];
     $qry = "SELECT * FROM product 
-            WHERE ProductTitle LIKE '%$keyword%' 
-            AND ProductDesc LIKE '%$keyword%'"; 
+            LEFT JOIN catproduct ON product.ProductID = catproduct.ProductID
+            LEFT JOIN category ON catproduct.CategoryID = category.CategoryID
+            WHERE category.catName LIKE '%$keyword%'
+            OR product.ProductTitle LIKE '%$keyword%' 
+            OR product.ProductDesc LIKE '%$keyword%'"; 
 }
 
 $result = $conn->query($qry);       //Execute the SQL and get the result
