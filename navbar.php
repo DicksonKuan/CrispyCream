@@ -17,10 +17,13 @@ if(isset($_SESSION["ShopperName"])) {
 	$content1 = "Welcome <b>$_SESSION[ShopperName]</b>";
     $content2 = "
         <li class='nav-item' style='color:#00754e'>
-            <a class='nav-link' href='changePassword.php' style='color:#00754e'>Change password</a>
+            <a class='nav-link' href='update.php' style='color:#00754e'>UPDATE PROFILE</a>
         </li>
         <li class='nav-item' style='color:#00754e'>
-            <a class='nav-link' href='logout.php' style='color:#00754e'>Logout</a>
+        <a class='nav-link' href='changePassword.php' style='color:#00754e'>CHANGE PASSWORD</a>
+    </li>
+        <li class='nav-item' style='color:#00754e'>
+            <a class='nav-link' href='logout.php' style='color:#00754e'>LOGOUT</a>
         </li>
     ";
 
@@ -28,7 +31,7 @@ if(isset($_SESSION["ShopperName"])) {
 	//To Do 2 (Practical 4) - 
     //Display number of item in cart
 	if(isset($_SESSION["NumCartItem"])){
-        $content1 .= ",$_SESSION[NumCartItem] item(s) in shopping cart";
+        $content1 .= "</br>There are currently $_SESSION[NumCartItem] item(s) in your shopping cart";
     }
 }
 ?>
@@ -37,50 +40,39 @@ if(isset($_SESSION["ShopperName"])) {
      Display a navbar which is visible before or after collapsing -->
 <link rel="stylesheet" href="css/navbar.css">
 <div class='pb-5'>
-<nav class="navbar navbar-expand-md bg-custom navbar-dark">
-    <!--Dynamic Text display-->
-    
-    <span class="navbar-text ml-md-2" style="color: #00754e;">
-        <?php echo $content1;?>
-    </span>
-    
-    <!--Toggler/ Collapsible button-->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" .navbar-collapse>
-        <span class="toggler-icon top-bar">  </span>
-        <span class="toggler-icon middle-bar"> </span>
-        <span class="toggler-icon bottom-bar"> </span>
-
-    
-    </button>
-</nav>
-
-<!-- To Do 4 (Practical 1) - 
-     Define a collapsible navbar -->
-<link rel="stylesheet" href="css/site.css">
-<nav class="navbar navbar-expand-md navbar-dark bg-custom center">
-    <div class="collapse show navbar-collapse mx-auto " id="collapsibleNavbar">
-        <!--Collapsible part of navbar-->
-        <ul id="navbarOptions" class="navbar-nav mr-auto nav" >
-            <li class="nav-item">
-                <a href="index.php" class="nav-link" style="color: #00754e;" >HOME</a>
-            </li>
-            <li class="nav-item">
-                <a href="category.php" class="nav-link" style="color: #00754e;" >PRODUCT CATEGORY</a>
-            </li>
-            <li class="nav-item">
-                <a href="productCatalogue.php" class="nav-link" style="color: #00754e;" >PRODUCTS</a>
-            </li>
-            <li class="nav-item">
-                <a href="shoppingCart.php" class="nav-link" style="color: #00754e;" >CART</a>
-            </li>
-        </ul>
+    <nav class="navbar navbar-expand-md bg-custom navbar-dark">
+        <!--Dynamic Text display-->
+        <span class="navbar-text ml-md-2" style="color: #00754e;">
+            <?php echo $content1;?>
+        </span>
         
-    </div>
-    <div>
-        <!--Right-justified menu items-->
-        <ul class="navbar-nav ml-auto" style="color: #00754e;">
-            <?php echo $content2;?>
-        </ul>
-    </div>
-</nav>
+        <!--Toggler/ Collapsible button-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" .navbar-collapse>
+            <span class="toggler-icon top-bar">  </span>
+            <span class="toggler-icon middle-bar"> </span>
+            <span class="toggler-icon bottom-bar"> </span>
+        </button>
+    </nav>
+    <link rel="stylesheet" href="css/site.css">
+    <nav class="navbar navbar-expand-md navbar-dark bg-custom center">
+        <div class="collapse show navbar-collapse mx-auto " id="collapsibleNavbar">
+            <!--Collapsible part of navbar-->
+            <ul id="navbarOptions" class="navbar-nav mr-auto nav" >
+                <li class="nav-item">
+                    <a href="index.php" class="nav-link" style="color: #00754e;" >HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="category.php" class="nav-link" style="color: #00754e;" >PRODUCT CATEGORY</a>
+                </li>
+                <li class="nav-item">
+                    <a href="product.php" class="nav-link" style="color: #00754e;" >PRODUCTS</a>
+                </li>
+                <li class="nav-item">
+                    <a href="shoppingCart.php" class="nav-link" style="color: #00754e;" >CART</a>
+                </li>
+                <?php echo $content2;?>
+            </ul>
+        </div>
+        
+    </nav>
 </div>
