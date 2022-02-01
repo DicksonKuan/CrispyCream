@@ -41,7 +41,7 @@ while($row = $result->fetch_array()){
      $catname= urlencode($row["CatName"]);
      $catproduct = "catProduct.php?cid=$row[CategoryID]&catName=$catname&page=1";
      echo "<div class='card w-25'>";
-     echo "<img src='$img' class='card-img-top mx-auto w-25 mt-5' alt='$row[CatName]'>";
+     echo "<img src='$img' class='card-img-top mx-auto w-50 mt-5' alt='$row[CatName]'>";
      echo "<div class='card-body mt-3'>";
      echo "<a href='$catproduct'><h5 class='card-title text-center'>$row[CatName]</h5></a>";
      echo "<p class='card-text text-center'>$row[CatDesc]</p>";
