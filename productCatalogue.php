@@ -4,11 +4,11 @@ include("header.php"); // Include the Page Layout header
 ?>
 <!-- Create a container, 60% width of viewport -->
 <div style="width:100%; margin:auto;">
-<style>
+<!-- <style>
     .card:hover{
         border: 3px dotted #ff7a59;
     }
-</style>
+</style> -->
 <?php 
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
