@@ -4,7 +4,26 @@ include("header.php"); // Include the Page Layout header
 ?>
 <!-- Create a container, 90% width of viewport -->
 <div style='width:90%; margin:auto;'>
-
+<style>
+    a{
+        color:black;
+    }
+    .card{
+        background-color:#f3e2cb;
+    }
+    a:hover{
+        color: #00754e;
+        text-decoration: none;
+    }
+    .btn{
+        background-color: #00754e;
+        color:white;
+    }
+    .btn:hover{
+        background-color: #ffe0b4;
+        color: black;
+    }
+</style>
 <?php 
 $pid=$_GET["pid"]; // Read Product ID from query string
 
@@ -24,7 +43,7 @@ while($row = $result->fetch_array()){
     echo "<div class='row'>";
 
     //Left side
-    echo "<div class='col-5'>";
+    echo "<div class='col-5-lg'>";
     echo "<p><img src='$img' class='w-100'/></p>";
     echo "</div>";
 
@@ -52,15 +71,16 @@ while($row = $result->fetch_array()){
         echo "<div class='row mx-1'>";
 
         //Request Quantity
-        echo '<div class="input-group flex-nowrap w-25 ">';
+        echo '<div class="input-group flex-nowrap">';
         echo '<div class="input-group-prepend">';
         echo '<span class="input-group-text" id="addon-wrapping">Quantity</span>';
         echo '</div>';
-        echo "<input type='number' required class='form-control' style='appearance: textfield;' value=1 min='1' max='10' required aria-describedby='addon-wrapping'>";
-        echo "</div>";
+        echo '<div class="w-25">';
+        echo "<input type='number' class='form-control' style='appearance: textfield;' value=1 min='1' max='10' required aria-describedby='addon-wrapping'>";
+        echo "</div></div>";
         echo "</div>";
 
-        echo "<div class='btn-grp mt-5' role='group'>";
+        echo "<div class='btn-group mt-5' role='group'>";
         //Add to cart 
         echo "<button type='submit' class='btn btn-light'>Add to cart</button>";
         //Buy now
