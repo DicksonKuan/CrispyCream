@@ -49,19 +49,6 @@ $result= $stmt->get_result();
 $stmt->close();
 
 while($row=$result->fetch_array()){
-    // $product = "productDetails.php?pid=$row[ProductID]";
-	// $formattedPrice = number_format($row["Price"],2);
-    // $img = "./img/products/$row[ProductImage]";
-
-    // //Card
-    // echo '<div class="card">';
-    // echo "<img src='$img' class='card-img-top'>";
-    // echo "<a href='$product' class='col'><h5 class='card-title'>$row[ProductTitle]</h5></a>";
-    // echo '<div class="card-footer">';
-    // echo "<p class='card-text'>S$ $formattedPrice</p>";
-    // echo "</div>";
-    // echo '</div>';
-
     $img = "./img/Products/$row[ProductImage]";
         $productURL=  "productDetails.php?pid=$row[ProductID]";
     
@@ -83,6 +70,7 @@ while($row=$result->fetch_array()){
                 echo "<p style='color:red'>Sales offer ends on: $row[OfferEndDate]</p>";
             }else{
                 echo "<p class='card-text' style='font-size: 1.2rem;'>SGD$ $row[Price]</p>";
+                echo "<p>&nbsp</p>";
             }
             echo '<div class="btn-group" role="group" aria-label="Basic example">';
             echo "<a href='$productURL' class='btn'>Add To cart</a>";

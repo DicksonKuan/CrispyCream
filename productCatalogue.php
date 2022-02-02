@@ -89,6 +89,7 @@ if($result->num_rows> 0){
                 echo "<p style='color:red'>Sales offer ends on: $row[OfferEndDate]</p>";
             }else{
                 echo "<p class='card-text' style='font-size: 1.2rem;'>SGD$ $row[Price]</p>";
+                echo "<p>&nbsp</p>";
             }
             echo '<div class="btn-group" role="group" aria-label="Basic example">';
             echo "<a href='$productURL' class='btn'>Add To cart</a>";
