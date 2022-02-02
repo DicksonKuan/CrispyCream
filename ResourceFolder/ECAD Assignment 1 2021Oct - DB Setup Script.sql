@@ -203,31 +203,31 @@ values('Sweetness (Out of 5)');
 -- Products 
 insert into Product(ProductTitle, ProductDesc, ProductImage, Price, Quantity, Offered, OfferedPrice, OfferStartDate, OfferEndDate) 
 values('Cinnamon Circle', 'Sugar and Cinnamon Powder',
-'Donut_cinnamoncircle.jpg', 1.20, 9000, 1, 1.00, '2021-12-01', '2021-12-31');
+'Donut_cinnamoncircle.png', 1.20, 9000, 1, 1.00, '2021-12-01', '2021-12-31');
 
 insert into Product(ProductTitle, ProductDesc, ProductImage, Price, Quantity, Offered, OfferedPrice, OfferStartDate, OfferEndDate) 
 values('Honeydew Chocolate', 'Smooth Honeydew flavoured Chocolate', 
-'Donut_honeydewchocolate.jpg', 2.00, 800, 1, 1.20, '2021-12-01', '2021-03-31');
+'Donut_honeydewchocolate.png', 2.00, 800, 1, 1.20, '2021-12-01', '2021-03-31');
 
 insert into Product(ProductTitle, ProductDesc, ProductImage, Price, Quantity) 
 values('Rainbow Bright', 'White Chocolate Dazzling with colourful Rainbow Rice.',
-'Donut_rainbowbright.jpg', 1.50, 0);
+'Donut_rainbowbright.png', 1.50, 0);
 
 insert into Product(ProductTitle, ProductDesc, ProductImage, Price, Quantity) 
 values('Summer Snow', 'A light dusting of frosty powedered Sugar.', 
-'Donut_summersnow.jpg', 1.30, 600);
+'Donut_summersnow.png', 1.30, 600);
 
 insert into Product(ProductTitle, ProductDesc, ProductImage, Price, Quantity) 
 values('Blueberry Breeze', 'Tingling snow powder donut with Blueberry insides.', 
-'Donut_blueberrybreeze.jpg', 1.75, 100); 
+'Donut_blueberrybreeze.png', 1.75, 100); 
 
 insert into Product(ProductTitle, ProductDesc, ProductImage, Price, Quantity, Offered, OfferedPrice, OfferStartDate, OfferEndDate)
 values('Mango Cheesecake', 'Mouth-tingling snow powder, filled with delicious mango cheesecake.', 
-'Donut_mangocheesecake.jpg', 2.50, 800, 1, 1.50, '2022-01-01', '2022-03-31');
+'Donut_mangocheesecake.png', 2.50, 800, 1, 1.50, '2022-01-01', '2022-03-31');
 
 insert into Product(ProductTitle, ProductDesc, ProductImage, Price, Quantity, Offered, OfferedPrice, OfferStartDate, OfferEndDate) 
 values('Strawberry Shortcake', 'Strawberry Chocolate topping with Strawberry filling.', 
-'Donut_shortcake.jpg', 2.00, 700, 1, 1.50, '2022-03-01', '2022-03-31');
+'Donut_shortcake.png', 2.00, 700, 1, 1.50, '2022-03-01', '2022-03-31');
 
 
 -- Product Specifications
