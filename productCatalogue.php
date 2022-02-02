@@ -57,7 +57,10 @@ if(isset($_GET['productSearch']) && trim($_GET['productSearch']) != ""){
             LEFT JOIN category ON catproduct.CategoryID = category.CategoryID
             WHERE category.catName LIKE '%$keyword%'
             OR product.ProductTitle LIKE '%$keyword%' 
-            OR product.ProductDesc LIKE '%$keyword%'"; 
+            OR product.ProductDesc LIKE '%$keyword%'
+            OR product.Price = '$keyword'
+            OR product.OfferedPrice = '$keyword'"; 
+    echo "<h5>Search result: <u>$keyword</u></h1>";
 }
 
 //Execute the SQL and get the result
@@ -89,6 +92,7 @@ if($result->num_rows> 0){
                 echo "<p style='color:red'>Sales offer ends on: $row[OfferEndDate]</p>";
             }else{
                 echo "<p class='card-text' style='font-size: 1.2rem;'>SGD$ $row[Price]</p>";
+                echo "<p>&nbsp</p>";
             }
             echo '<div class="btn-group" role="group" aria-label="Basic example">';
             echo "<a href='$productURL' class='btn'>Add To cart</a>";
@@ -112,7 +116,6 @@ if($result->num_rows> 0){
             $counter += 1;
         }
         echo "</div>";
-        
     }
 }else{
     echo "No records found!";

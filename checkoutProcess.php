@@ -8,32 +8,32 @@ if($_POST) //Post Data received from Shopping cart page.
 {
 	// To Do 6 (DIY): Check to ensure each product item saved in the associative
 	//                array is not out of stock
-	foreach($_SESSION["Items"] as $key=>$item) {
+	// foreach($_SESSION["Items"] as $key=>$item) {
 
 
-		$qry = "SELECT * FROM Product WHERE ProductID = ?";
+	// 	$qry = "SELECT * FROM Product WHERE ProductID = ?";
 		
 		
-		$stmt = $conn->prepare($qry);
+	// 	$stmt = $conn->prepare($qry);
 
-		$stmt->bind_param("i", $item["productId"]);
-		$stmt->execute();
-		$result=$stmt->get_result();
+	// 	$stmt->bind_param("i", $item["productId"]);
+	// 	$stmt->execute();
+	// 	$result=$stmt->get_result();
 
-		if($result->num_rows > 0){
-			while($row = $result->fetch_array()){
-				if ($row["Quantity"] < 20){
-					echo "Product $item[productId] : $item[name] is out of stock!<br />";
-					echo "Please return to shopping cart to amend your purchase.<br />";
-					include("footer.php");
-					exit;
-				}
-			}
-		}
+	// 	if($result->num_rows > 0){
+	// 		while($row = $result->fetch_array()){
+	// 			if ($row["Quantity"] < 20){
+	// 				echo "Product $item[productId] : $item[name] is out of stock!<br />";
+	// 				echo "Please return to shopping cart to amend your purchase.<br />";
+	// 				include("footer.php");
+	// 				exit;
+	// 			}
+	// 		}
+	// 	}
 
-		$stmt->close();
-		//$conn->close();
-	}
+	// 	$stmt->close();
+	// 	//$conn->close();
+	// }
 
 
 	$qty = 0;
@@ -60,10 +60,23 @@ if($_POST) //Post Data received from Shopping cart page.
                     if ($row["Quantity"] > $qty){
                         $a = $row["ProductID"];
                         $b = $row["Name"];
-                        echo "Product $a : $b is out of stock!<br />";
-                        echo "Please return to shopping cart to amend your purchase. <br />";
-						echo "<a href='index.php'>Continue shopping</a></p>";
 
+
+
+						echo "<link rel='stylesheet' href='css/orderConfirmed.css'";
+
+						echo "<div class='col-sm-8'>";
+
+						echo  "<div class='card'>";
+
+						echo "Product $a : $b is out of stock!<br />";
+                        echo "Please return to shopping cart to amend your purchase. <br />";
+						echo "<a href='reviewOrder.php'>return to review order</a></p>";
+						
+
+
+
+						echo "</div>";
                         // echo $row["Quantity"];
                         include("footer.php");
                         exit;
@@ -112,11 +125,14 @@ if($_POST) //Post Data received from Shopping cart page.
 		}
 	
 	// To Do 1B: Compute Shipping charge - S$2.00 per trip
+
+
+
 	$radioVal = $_POST["deliveryRadio"];
 	$_SESSION["radioVal"] = $_POST["deliveryRadio"];
 	$_SESSION["phoneNo"] = $_POST["phoneNo"];
 
-	$_SESSION["shipAddress"] = $_POST["address"];
+	//$_SESSION["shipAddress"] = $_POST["address"];
 	
 	
 	$_SESSION["msg"] = $_POST["msg"];
@@ -166,8 +182,13 @@ if($_POST) //Post Data received from Shopping cart page.
 	}
 	else if ($radioVal == 'normal')
 	{
+		if ($_SESSION["SubTotal"] < 40){
+			$_SESSION["ShipCharge"] =  2;
+		}
+		else{
+			$_SESSION["ShipCharge"] = 0;
+		}
 		
-		$_SESSION["ShipCharge"] = 2;
 	}
 
 	//$_SESSION["ShipCharge"] = 2;
@@ -269,54 +290,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 		if (TRUE){
 			
-			// To Do 5 (DIY): Update stock inventory in product table 
-			//                after successful checkout
-			$qry = "SELECT * FROM shopcartitem WHERE ShopCartID = ?";
 
-			$stmt = $conn->prepare($qry);
-
-			$stmt->bind_param("i", $_SESSION["Cart"]);
-			$stmt->execute();
-			$result=$stmt->get_result();
-
-			if($result->num_rows > 0){
-				while($row = $result->fetch_array()){
-					$qry2 = 'UPDATE Product Set Quantity = Quantity-? WHERE ProductID = ?';
-					$stmt2 = $conn->prepare($qry2);
-					$stmt2->bind_param("dd", $row["Quantity"], $row["ProductID"]);
-					$stmt2->execute();
-					$stmt2->close();
-				}
-			}
-
-			$stmt->close();
-
-
-			
-			//$conn->close();
-
-
-			// End of To Do 5
-		
-			// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
-			$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
-			$qry = 'UPDATE Shopcart SET OrderPlaced=1, Quantity=?, SubTotal=?, ShipCharge=?, Tax=?, Total=?
-					WHERE ShopCartID=?';
-			
-			$stmt = $conn->prepare($qry);
-
-			$stmt->bind_param("iddddi", $_SESSION["NumCartItem"], 
-							$_SESSION["SubTotal"], $_SESSION["ShipCharge"],
-							$_SESSION["Tax"], $total,
-							$_SESSION["Cart"]);
-
-			$stmt->execute();
-			$stmt->close();
-
-			// End of To Do 2
-			
-			//We need to execute the "GetTransactionDetails" API Call at this point 
-			//to get customer details
 
 			$transactionID = urlencode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
 			$nvpStr = "&TRANSACTIONID=".$transactionID;
@@ -349,15 +323,62 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 				
 				$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
 
+				$_SESSION["Address"] = $ShipAddress;
+				$_SESSION['Address'] = substr($_SESSION['Address'], 0, strpos($_SESSION['Address'], "SG_zip"));
 
 				if ($ShipCountry == "Singapore"){
+
+					$qry = "SELECT * FROM shopcartitem WHERE ShopCartID = ?";
+
+					$stmt = $conn->prepare($qry);
+
+					$stmt->bind_param("i", $_SESSION["Cart"]);
+					$stmt->execute();
+					$result=$stmt->get_result();
+
+					if($result->num_rows > 0){
+						while($row = $result->fetch_array()){
+							$qry2 = 'UPDATE Product Set Quantity = Quantity-? WHERE ProductID = ?';
+							$stmt2 = $conn->prepare($qry2);
+							$stmt2->bind_param("dd", $row["Quantity"], $row["ProductID"]);
+							$stmt2->execute();
+							$stmt2->close();
+						}
+					}
+
+					$stmt->close();
+
+
+					
+					//$conn->close();
+
+
+					// End of To Do 5
+				
+					// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
+					$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
+					$qry = 'UPDATE Shopcart SET OrderPlaced=1, Quantity=?, SubTotal=?, ShipCharge=?, Tax=?, Total=?
+							WHERE ShopCartID=?';
+					
+					$stmt = $conn->prepare($qry);
+
+					$stmt->bind_param("iddddi", $_SESSION["NumCartItem"], 
+									$_SESSION["SubTotal"], $_SESSION["ShipCharge"],
+									$_SESSION["Tax"], $total,
+									$_SESSION["Cart"]);
+
+					$stmt->execute();
+					$stmt->close();
+
+
 					$qry = "INSERT INTO orderdata (ShopCartID, ShipName, ShipAddress, ShipCountry,ShipPhone,
 												 ShipEmail, BillName, BillAddress, BillCountry, BillPhone, BillEmail,
 												  DeliveryDate, DeliveryTime, DeliveryMode, Message, DateOrdered) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 					$stmt = $conn->prepare($qry);
 
-					$stmt-> bind_param("isssssssssssssss", $_SESSION["Cart"], $_SESSION["fname"], $_SESSION["shipAddress"], $ShipCountry, $_SESSION["phoneNo"], $_SESSION["email"],$ShipName,$ShipAddress, $ShipCountry, $_SESSION["phoneNo"], $ShipEmail, $_SESSION['deliverDate'], $_SESSION['deliveryTime'], $_SESSION['radioVal'], $_SESSION['msg'], $_SESSION['deliverDate']);
+					
+					$stmt-> bind_param("isssssssssssssss", $_SESSION["Cart"], $_SESSION["fname"], $ShipAddress, $ShipCountry, $_SESSION["phoneNo"], $_SESSION["email"],$ShipName,$ShipAddress, $ShipCountry, $_SESSION["phoneNo"], $ShipEmail, $_SESSION['deliverDate'], $_SESSION['deliveryTime'], $_SESSION['radioVal'], $_SESSION['msg'], $_SESSION['deliverDate']);
 						
 					$stmt->execute();
 					$stmt->close();
@@ -371,13 +392,13 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 						
 					//$conn->close();
 						
-					// To Do 4A: Reset the "Number of Items in Cart" session variable to zero.
+					
 					$_SESSION["NumCartItem"] = 0;
 					
-					// To Do 4B: Clear the session variable that contains Shopping Cart ID.
+					
 					unset($_SESSION["Cart"]);
 					
-					// To Do 4C: Redirect shopper to the order confirmed page.
+					
 					header("Location: orderConfirmed.php");
 					exit;
 				}
@@ -386,7 +407,10 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 				//          Get the Order ID and save it in session variable.
 
 				else{
-					echo "<div style='color:red'><b>Im sorry we currently do not send to this country!</b></div>";
+					echo "<div style='color:red'><b>Im sorry we currently do not send to $ShipCountry!</b></div>";
+					echo "<div style='color:red'><b>The order process has been stopped. You can return to the review order page to make amends </b></div>";
+					echo "<a href='reviewOrder.php'>return to review order</a></p>";
+					
 				//echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
 				//$conn->close();
 				}
@@ -408,9 +432,9 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 		else 
 		{
-		    echo "<div style='color:red'><b>Im sorry we currently do not send to this country!</b></div>";
-			//echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
-			//$conn->close();
+			echo "<div style='color:red'><b>Im sorry we currently do not send to $ShipCountry!</b></div>";
+			echo "<div style='color:red'><b>The order process has been stopped. You can return to the review order page to make amends </b></div>";
+			echo "<a href='reviewOrder.php'>return to review order</a></p>";
 		}
 	}
 	else {
@@ -422,5 +446,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 include("footer.php"); // Include the Page Layout footer
 ?>
+
 
 

@@ -136,6 +136,8 @@ echo "<div class='container' style='100%'>";
 //delivery choice
 
 echo "<form method='post' action='checkoutProcess.php'>";
+echo "<div class='orderSummary'>";
+
 echo "<h1>Order Summary </h1>";
 
 $finalQuantity = 0;
@@ -169,9 +171,26 @@ if ($result->num_rows > 0){ //if there are any records at all from that shop car
 };
 
 
+$qry = "SELECT * from gst where EffectiveDate < curdate() order by EffectiveDate DESC limit 1;";
+		
+		
+		$stmt = $conn->prepare($qry);
 
-echo "<h2>Subtotal ($finalQuantity Items)  $$finalPrice </h2>";
-echo "<p>Shipping and tax calculated at checkout</p>";
+		$stmt->execute();
+		$result=$stmt->get_result();
+
+		if($result->num_rows > 0){
+			while($row = $result->fetch_array()){
+				// there will only be 1 row since it is limit 1
+				$_SESSION["Tax"] = round( $finalPrice*($row["TaxRate"]/100),2);
+				
+			}
+		}
+
+
+
+
+
 
 echo "<label for='name'>Name</label>";
 echo "<input type='text' id='fname' name='fname' required><br>";
@@ -179,6 +198,10 @@ echo "<input type='text' id='fname' name='fname' required><br>";
 
 
 echo "<br />";
+
+echo "<p> Express Shipping + $5, Delivered within 2 hours </p>";
+
+echo "<p> Normal Shipping + $2 (waived for orders over $40), Delivered within 24 hours </p>";
 
 echo "<label for='deliveryRadio'>Express</label>	";
 echo "<input type='radio' name='deliveryRadio' id='deliveryRadio' value='express'  />";
@@ -190,8 +213,8 @@ echo "<br />";
 echo "<label for='phoneNo'>Phone Number</label>";
 echo "<input type='tel' name='phoneNo' id='phoneNo' required placeholder='91234567' pattern='[8-9][0-9]{7}'/>";
 echo "<br />";
-echo "<label for='address'>Address</label>";
-echo "<input type='text' name='address' id='address' required />";
+// echo "<label for='address'>Address</label>";
+// echo "<input type='text' name='address' id='address' required />";
 
 echo "<br />";
 echo "<label for='email'>Email</label>";
@@ -207,12 +230,40 @@ echo "<textarea id='msg' name='msg' rows='4' cols='30' placeholder='send a messa
 
 echo "<br />";
 
-echo "<input type='image' style='float:right;'
-     src = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
+$finalPriceExpress = $finalPrice+$_SESSION["Tax"] + 5;
+
+if ($finalPrice < 40){
+    $finalPriceNormal = $finalPrice+$_SESSION["Tax"] + 2;
+}
+else{
+    $finalPriceNormal = $finalPrice+$_SESSION["Tax"];
+}
+
+echo "<br />";
+
+echo "<hp>Subtotal ($finalQuantity Items) <br/> The final Price with Express Shipping : $$finalPriceExpress <br/> The final Price with Normal Shipping : $$finalPriceNormal </p>";
+
+echo "<br />";
+
+echo "<div class='row'>";
+echo "<div class='col-sm-2'>";
+echo "</div>";
+
+echo "<div class='col-sm-8'>";
+
+echo "<input type='image' id='paybutton';
+     src = 'https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png'>";
 echo "</form>";
 
+
+echo "</div>";
+
+echo "<div class='col-sm-2'>";
+echo "</div>";
+echo "<div>";
         
 
+echo "</div>";
 echo "</div>";
 echo "</div>";
 echo "</div>"; //this closes the right side of the items summary panel
@@ -225,6 +276,9 @@ echo "</div>";
 include ("footer.php");
 
 ?>
+
+
+
 
 
 
