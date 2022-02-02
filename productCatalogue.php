@@ -57,7 +57,10 @@ if(isset($_GET['productSearch']) && trim($_GET['productSearch']) != ""){
             LEFT JOIN category ON catproduct.CategoryID = category.CategoryID
             WHERE category.catName LIKE '%$keyword%'
             OR product.ProductTitle LIKE '%$keyword%' 
-            OR product.ProductDesc LIKE '%$keyword%'"; 
+            OR product.ProductDesc LIKE '%$keyword%'
+            OR product.Price = '$keyword'
+            OR product.OfferedPrice = '$keyword'"; 
+    echo "<h5>Search result: <u>$keyword</u></h1>";
 }
 
 //Execute the SQL and get the result
