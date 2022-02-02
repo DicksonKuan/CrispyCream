@@ -1,3 +1,19 @@
+<?php 
+// Detect the current session
+session_start();
+// Include the Page Layout header
+include("header.php"); 
+?>
+<link rel="stylesheet" href="css/site.css">
+<h5 style="color:#00754e; text-align:center">
+     <?php 
+          if (isset($_SESSION["SuccessMessage"])) {
+               echo $_SESSION["SuccessMessage"];
+          }
+     ?>
+</h5>
+<img src="img/brandimage.png" class="img-fluid w-25" style="display:block; margin:auto;"/>
+<div class="container mt-5">
 <style>
      a{
         color:black;
@@ -18,26 +34,9 @@
         color: black;
     }
 </style>
-<?php 
-// Detect the current session
-session_start();
-// Include the Page Layout header
-include("header.php"); 
-?>
-<link rel="stylesheet" href="css/site.css">
-<h5 style="color:#00754e; text-align:center">
-     <?php 
-          if (isset($_SESSION["SuccessMessage"])) {
-               echo $_SESSION["SuccessMessage"];
-          }
-     ?>
-</h5>
-<img src="img/brandimage.png" class="img-fluid w-25" style="display:block; margin:auto;"/>
-<div class="container mt-5">
-
 <div class='card'>
      <div class='card-header'>
-     <h1 class="text-center"><b>Promotional Item</b></h1>
+     <h1 class="text-center" style='color: #00754e;'><b>Promotional Item</b></h1>
      </div>
      <div class='card-body'>
           <div class='card-group'>
