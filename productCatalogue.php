@@ -112,7 +112,6 @@ if($result->num_rows> 0){
             $counter += 1;
         }
         echo "</div>";
-        
     }
 }else{
     echo "No records found!";

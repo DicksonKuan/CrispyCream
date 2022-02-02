@@ -93,7 +93,7 @@ while($row = $result->fetch_array()){
     echo "</div>";
 
    
-}
+}   
 
 $conn->close(); // Close database connnection
 echo "</div>"; // End of container
