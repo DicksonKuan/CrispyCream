@@ -53,10 +53,10 @@ while($row = $result->fetch_array()){
     //To check if there is stock, else display out of stock
     if($row["Quantity"] != 0){
         $formattedPrice = number_format($row["Price"],2);
-        $formattedDiscountPrice = number_format($row["OfferedPrice"],2);
 
         //Price
         if($row["Offered"] == 1){
+            $formattedDiscountPrice = number_format($row["OfferedPrice"],2);
             echo "<h4>Price: S$ <del>$formattedPrice</del>
             <span style='font-weight:bold; color:red;'> $formattedDiscountPrice</span></h4>";  
             echo "<p style='color:red'>Sales offer ends on: $row[OfferEndDate]</p>";
