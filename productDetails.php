@@ -99,6 +99,9 @@ while($row = $result->fetch_array()){
             echo("Average rating score is: $row[Average]");
         }
     }
+    else{
+        echo("No ratings has been made yet!");
+    }
     echo "</div>";
     echo "</div>";
     echo "</div>";
@@ -167,13 +170,13 @@ if (isset($_SESSION["ShopperID"])) {
         while($row = $result->fetch_array()){
             $userrating = "";
             for ($x = 0; $x < $row["Rank"]; $x++) {
-                $userrating .= '<i class="fa fa-star" style="font-size:50px; color: #FFDB58;"></i>';
+                $userrating .= '<i class="fa fa-star" style="font-size:50px; color: #E8CA5C;"></i>';
             }
             for ($y = 0; $y < (5 - $row["Rank"]); $y++) {
                 $userrating .= '<i class="fa fa-star-o" style="font-size:50px"></i>';
             }
             echo "<div class='row'>";
-                echo "<div class='col-12 p-2 pt-4' style='background-color: white; text-align: center;'>";
+                echo "<div class='col-12 p-2 pt-4' style='text-align: center;'>";
                     echo ("<h3> Your Rating: </h3>");
                     echo ($userrating);
                     echo ("<h4>");
@@ -199,7 +202,7 @@ if (mysqli_num_rows($result) == 0) {
 </div>");
 }
 else{
-    echo ("<div class='row pt-5' style='background-color: white;'>
+    echo ("<div class='row pt-5'>
             <div class='col-12' style='text-align:center;'>
                 <h3>All Ratings</h3>
             </div>
@@ -217,12 +220,12 @@ else{
         $stmt2->close();
         while($row2 = $result2->fetch_array()){
             //display rating and comment with user's name
-            $doughnutRatings .= "<div class='col-lg-12 p-2 pt-4' style='text-align:center; background-color: white;'>
+            $doughnutRatings .= "<div class='col-lg-12 p-2 pt-4' style='text-align:center;'>
                                     <h5>";
             $doughnutRatings .= $row2["Name"];
             $doughnutRatings .= "</h5>";
             for ($x = 0; $x < $row["Rank"]; $x++) {
-                $doughnutRatings .= '<i class="fa fa-star" style="font-size:30px; color: #FFDB58;"></i>';
+                $doughnutRatings .= '<i class="fa fa-star" style="font-size:30px; color: #E8CA5C;"></i>';
             }
             for ($y = 0; $y < (5 - $row["Rank"]); $y++) {
                 $doughnutRatings .= '<i class="fa fa-star-o" style="font-size:30px"></i>';

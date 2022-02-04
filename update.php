@@ -44,6 +44,7 @@ function validateForm()
 </script>
 
 <div class="container">
+<h1 class="fw-bold mb-1 text-center">UPDATE PROFILE</h1>
   <form name="register" action="updateMember.php" method="post" onsubmit="return validateForm()">
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -94,7 +95,7 @@ function validateForm()
           </label>
       </div>
       <div class="form-check col-md-8 ml-4">
-        <input class="form-check-input " type="radio" value="0" id="activestatus" name="activestatus">
+        <input class="form-check-input " type="radio" value="0" id="inactivestatus" name="activestatus">
           <label class="form-check-label" for="activestatus">
             Inactive
           </label>
@@ -103,12 +104,26 @@ function validateForm()
     </div>
     <br>
     <div class="form-group">
-    <button type="submit" class="btn btn-light" style="background-color: #00754e; color:white;">Update</button>
+    <button type="submit" class="btn btn-lg btn-block" style="background-color: #00754e; color:white;">Update</button>
     </div>
   </form>
+  </br>
+  <a class="medium text-muted mb-5 pb-lg-2" href="index.php">Back to main menu</a>
+  </br>
 </div>
-
+  
 <?php 
+if ($ActiveStatus == 1){
+  echo '<script type="text/JavaScript"> 
+    document.getElementById("activestatus").checked = true;
+ </script>';
+}
+else{
+  echo '<script type="text/JavaScript"> 
+  document.getElementById("inactivestatus").checked = true;
+</script>';
+ }
+
 // Include the Page Layout footer
 include("footer.php"); 
 ?>

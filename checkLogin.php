@@ -3,7 +3,7 @@
 session_start();
 // Include the Page Layout header
 include("header.php"); 
-
+unset($_SESSION["LoginErrorMessage"]);
 // Reading inputs entered in previous page
 $email = $_POST["email"];
 $pwd = $_POST["password"];
@@ -34,7 +34,8 @@ while($row = $result->fetch_array()){
 		// Redirect to home page
 	}
 	else {
-		echo  "<h3 style='color:red'>Invalid Login Credentials</h3>";
+		$_SESSION["LoginErrorMessage"] = "<p class='mb-5' style='color: red;'>Invalid Login Credentials!</p>";
+		header("Location: login.php");
 	}
 }
 

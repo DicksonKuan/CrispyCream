@@ -32,21 +32,25 @@ include("header.php");
 
                   <div class="form-outline mb-4">
                     <input type="email" id="email" name="email" class="form-control form-control-lg" required/>
-                    <label class="form-label" for="email">Email address</label>
+                    <label class="form-label register-label" for="email">Email address</label>
                   </div>
 
                   <div class="form-outline mb-4">
                     <input type="password" id="password" name="password" class="form-control form-control-lg" required/>
-                    <label class="form-label" for="password">Password</label>
+                    <label class="form-label register-label" for="password">Password</label>
                   </div>
 
                   <div class="pt-1 mb-4">
                     <button type="submit" class="btn btn-lg btn-block" type="button" style="background-color:#00754e; color:white;">Login</button>
                   </div>
-
-                  <a class="small text-muted" href="forgetPassword.php">Forgot password?</a>
-                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="register.php" style="color: #00754e;">Register here</a></p>
-                 
+                  <?php
+                    if (isset($_SESSION['LoginErrorMessage'])) {
+                      echo($_SESSION['LoginErrorMessage']);
+                  }
+                  ?>
+                  <a class="small text-muted mb-2" href="forgetPassword.php">Forgot password?</a>
+                  <p class="mb-3" style="color: #393f81;">Don't have an account? <a href="register.php" style="color: #00754e;">Register here</a></p>
+                  <a class="medium text-muted mb-5 pb-lg-2" href="index.php">Back to main menu</a>
                 </form>
 
               </div>

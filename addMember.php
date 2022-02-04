@@ -20,7 +20,6 @@
         while($row = $result->fetch_array()){
             $resultdata = $row['Count'];
         }
-        echo ($resultdata);
         //Release the resource allocated for prepared statement
         if ($resultdata != 0) {
             return true;
@@ -43,14 +42,22 @@
         while($row = $result->fetch_array()){
             $_SESSION["ShopperID"] = $row["ShopperID"];
         }
+        
         //Succesful message and ShopperID
-        $Message = "<span style='color:#00754e'>Registration successful! <br>
-                    Your ShopperID is $_SESSION[ShopperID]<br></span>";
+        $Message = "<center><div class='my-3'>
+                    <i class='fa fa-user-plus' style='font-size:50px;color:#00754e'></i>
+                    <h3 class='pt-4' style='color:#00754e; align-items:center;'>Registration successful!</br>
+                    Your ShopperID is $_SESSION[ShopperID]<br></h3>
+                    </div></center>";
         //Save the Shopper Name in a session variable
         $_SESSION["ShopperName"] = $name;//Retrieve the shopper ID assigned to the new shopper
         }
         else{ //Error message
-        $Message = "<h3 style='color:red'>Error inserting record!</h3>";
+            $Message = "<center><div class='my-3'>
+            <i class='fa fa-user-times' style='font-size:50px;color:red'></i>
+            <h3 class='pt-4' style='color:red; align-items:center;'>Error Inserting Record!</h3>
+            <a class='btn btn-danger px-5 my-2' href='register.php'>Back</a>
+            </div></center>";
         }
         //Release the resource allocated for prepared statement
         $stmt->close();
@@ -58,12 +65,17 @@
         $conn->close();
     }
     else{
-        $Message = "<h3 style='color:red'>Error! User with keyed in inputs already exists!</h3>";
+        $Message = "<center><div class='my-3'>
+        <i class='fa fa-user-times' style='font-size:50px;color:red'></i>
+        <h3 class='pt-4' style='color:red; align-items:center;'>User with entered details already exists!</h3>
+        <a class='btn btn-danger px-5 my-2' href='register.php'>Back</a>
+        </div></center>";
     }
 
    
     //Display Page layout header with updated session state and links
     include("header.php");
     echo $Message;
+
     include("footer.php");
 ?>

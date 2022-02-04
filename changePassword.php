@@ -29,9 +29,9 @@ if (isset($_SESSION["ErrorMessage"])) {
         return true;
     }
 </script>
-<section class="vh-80">
+<section>
   <div class="container-fluid py-5">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="row d-flex justify-content-center">
       <div class="col col-xl-10">
         <div class="card shadow" style="border-radius: 1rem;">
           <div class="row">
@@ -41,7 +41,7 @@ if (isset($_SESSION["ErrorMessage"])) {
               <form name="passwordForm" action="updatePassword.php" method="post" onsubmit="return validate()">
 
                   <div class="d-flex align-items-center mb-3 pb-1">
-                    <span class="h1 fw-bold mb-0">CHANGE PASSWORD</span>
+                    <h1 class="fw-bold mb-2">CHANGE PASSWORD</h1>
                   </div>
 
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Change your password</h5>

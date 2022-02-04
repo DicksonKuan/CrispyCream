@@ -35,8 +35,9 @@ function validateForm()
 }
 </script>
 
-<div class="container register-form">
-  <form name="register" action="addMember.php" method="post" onsubmit="return validateForm()">
+<div class="container register-form p-5 shadow" style="background-color: White; border-radius: .5rem;">
+<h1 class=" fw-bold mb-0" style="text-align: center">SIGN UP</h1>
+  <form class="mt-4" name="register" action="addMember.php" method="post" onsubmit="return validateForm()">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="fullname" class="register-label">Full Name</label>
@@ -53,26 +54,6 @@ function validateForm()
         <input type="email" class="form-control" id="emailaddress" name="emailaddress" placeholder="Email" required>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-          <label for="password" class="register-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-      </div>
-      <div class="form-group col-md-6">
-          <label for="confirmpassword" class="register-label">Confirm Password</label>
-          <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" maxlength="20" required>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-12">
-          <label for="passwordquestion" class="register-label">Password Question</label>
-          <input type="text" class="form-control" id="passwordquestion" name="passwordquestion" placeholder="Password Question for Resetting Password" required>
-      </div>
-      <div class="form-group col-md-12">
-          <label for="passwordanswer" class="register-label">Password Answer</label>
-          <input type="text" class="form-control" id="passwordanswer" name="passwordanswer" placeholder="Password Question Answer" maxlength="20" required>
-      </div>
-    </div>
     <div class="form-group">
       <label for="address" class="register-label">Address</label>
       <input type="text" class="form-control" id="address" name="address" placeholder="Address" maxlength="150" required>
@@ -87,8 +68,31 @@ function validateForm()
         <input type="tel" class="form-control" id="phonenumber" name="phonenumber" placeholder="Phone Number" required>
       </div>
     </div>
-    <button type="submit" class="btn btn-light" style="background-color: #00754e; color:white;">Sign Up</button>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+          <label for="password" class="register-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+      </div>
+      <div class="form-group col-md-6">
+          <label for="confirmpassword" class="register-label">Confirm Password</label>
+          <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" maxlength="20" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+          <label for="passwordquestion" class="register-label">Password Question</label>
+          <input type="text" class="form-control" id="passwordquestion" name="passwordquestion" placeholder="Question for Password Reset" required>
+      </div>
+      <div class="form-group col-md-12">
+          <label for="passwordanswer" class="register-label">Password Answer</label>
+          <input type="text" class="form-control" id="passwordanswer" name="passwordanswer" placeholder="Password Question Answer" maxlength="20" required>
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-lg btn-block" type="button"  style="background-color: #00754e; color:white; width:100%">Sign Up</button>
   </form>
+  </br>
+  <a class="medium text-muted pb-lg-2" href="index.php">Back to main menu</a>
 </div>
 <?php 
 // Include the Page Layout footer
