@@ -19,6 +19,8 @@ include("mysql_conn.php");
 //for testing
 $_SESSION["ShopperID"] = 1;
 $_SESSION["Cart"] = 1;
+$_SESSION["ShopperName"] = 'James Ecader';
+$_SESSION["NumCartItem"] = 2;
 
 
 $deliveryOption = "";
@@ -95,7 +97,7 @@ if (isset($_SESSION["Cart"])){ //if a cart variable does exist in the session
             echo "<form action='cartFunctions.php' method='post'>";
             echo "<input type='hidden' name='action' value='remove' />";
             echo "<input type='hidden' name='product_id' value='$row[ProductID]' />";
-            echo "<input id='imginput' type='image' src='img/red-cross.png' title='Remove Item' />";
+            
             echo "</form>";
 
           
@@ -276,6 +278,8 @@ echo "</div>";
 include ("footer.php");
 
 ?>
+
+
 
 
 
