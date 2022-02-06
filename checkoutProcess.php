@@ -6,38 +6,11 @@ include_once("mysql_conn.php");
 
 if($_POST) //Post Data received from Shopping cart page.
 {
-	// To Do 6 (DIY): Check to ensure each product item saved in the associative
-	//                array is not out of stock
-	// foreach($_SESSION["Items"] as $key=>$item) {
 
-
-	// 	$qry = "SELECT * FROM Product WHERE ProductID = ?";
-		
-		
-	// 	$stmt = $conn->prepare($qry);
-
-	// 	$stmt->bind_param("i", $item["productId"]);
-	// 	$stmt->execute();
-	// 	$result=$stmt->get_result();
-
-	// 	if($result->num_rows > 0){
-	// 		while($row = $result->fetch_array()){
-	// 			if ($row["Quantity"] < 20){
-	// 				echo "Product $item[productId] : $item[name] is out of stock!<br />";
-	// 				echo "Please return to shopping cart to amend your purchase.<br />";
-	// 				include("footer.php");
-	// 				exit;
-	// 			}
-	// 		}
-	// 	}
-
-	// 	$stmt->close();
-	// 	//$conn->close();
-	// }
-
-
+	// set quantity variable
 	$qty = 0;
-  //$array = json_decode(json_encode($_SESSION["Items"]), true);
+// iterate through items currently in the shopcart
+	
     $qry = "SELECT * FROM shopcartitem WHERE ShopCartID = ?";
 
         $stmt = $conn->prepare($qry);
@@ -48,6 +21,8 @@ if($_POST) //Post Data received from Shopping cart page.
 
         if($result->num_rows > 0){
             while($row = $result->fetch_array()){
+		    
+		    //get the quantity that is in stock
                 $qry = "SELECT Quantity FROM product WHERE ProductID = ?";
                 $stmt = $conn->prepare($qry);
                 $stmt->bind_param("i", $row["ProductID"]);
@@ -57,11 +32,13 @@ if($_POST) //Post Data received from Shopping cart page.
                         $a = array('Quantity' => $qty);
                     }
                     $stmt->close();
+			
+			// if there isnt enough items currently in stock 
                     if ($row["Quantity"] > $qty){
                         $a = $row["ProductID"];
                         $b = $row["Name"];
-
-
+			    
+			    //echo out the error message prompting user to go back 
 
 						echo "<link rel='stylesheet' href='css/orderConfirmed.css'";
 
@@ -88,7 +65,7 @@ if($_POST) //Post Data received from Shopping cart page.
 
 		}
 	
-	// End of To Do 6
+
 	
 	$paypal_data = '';
 	// Get all items from the shopping cart, concatenate to the variable $paypal_data
@@ -100,14 +77,7 @@ if($_POST) //Post Data received from Shopping cart page.
 		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
 	}
 	
-	// To Do 1A: Compute GST amount 7% for Singapore, round the figure to 2 decimal places
-
 	//get gst amount
-
-
-
-	
-
 	$qry = "SELECT * from gst where EffectiveDate < curdate() order by EffectiveDate DESC limit 1;";
 		
 		
@@ -124,16 +94,14 @@ if($_POST) //Post Data received from Shopping cart page.
 			}
 		}
 	
-	// To Do 1B: Compute Shipping charge - S$2.00 per trip
 
 
 
+	// get the variables from the form in the reviewOrder.php
+	
 	$radioVal = $_POST["deliveryRadio"];
 	$_SESSION["radioVal"] = $_POST["deliveryRadio"];
 	$_SESSION["phoneNo"] = $_POST["phoneNo"];
-
-	//$_SESSION["shipAddress"] = $_POST["address"];
-	
 	
 	$_SESSION["msg"] = $_POST["msg"];
 
@@ -145,7 +113,8 @@ if($_POST) //Post Data received from Shopping cart page.
 
 	$_SESSION["fname"] = $_POST["fname"];
 	
-
+	//set the delivery time and date based on the current time and date
+	// if the deliver is express it is within 2 hours and normal is within 24
 	if ($radioVal == "express" ){
 		//date("H") is now 24 hr HOUR
 		if(date("H") < 10){
@@ -182,7 +151,7 @@ if($_POST) //Post Data received from Shopping cart page.
 	}
 	else if ($radioVal == 'normal')
 	{
-		if ($_SESSION["SubTotal"] < 40){
+		if ($_SESSION["SubTotal"] < 50){
 			$_SESSION["ShipCharge"] =  2;
 		}
 		else{
@@ -353,9 +322,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 					//$conn->close();
 
 
-					// End of To Do 5
-				
-					// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
+					//close the shopping cart (OrderPlaced=1)
 					$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
 					$qry = 'UPDATE Shopcart SET OrderPlaced=1, Quantity=?, SubTotal=?, ShipCharge=?, Tax=?, Total=?
 							WHERE ShopCartID=?';
@@ -370,7 +337,8 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 					$stmt->execute();
 					$stmt->close();
 
-
+					//Insert an order variable into the database with the data
+					
 					$qry = "INSERT INTO orderdata (ShopCartID, ShipName, ShipAddress, ShipCountry,ShipPhone,
 												 ShipEmail, BillName, BillAddress, BillCountry, BillPhone, BillEmail,
 												  DeliveryDate, DeliveryTime, DeliveryMode, Message, DateOrdered) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -388,7 +356,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 					$_SESSION["OrderID"] = $row["OrderID"];
 
 
-					// End of To Do 3
+				
 						
 					//$conn->close();
 						
@@ -403,16 +371,14 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 					exit;
 				}
 				
-				// To Do 3: Insert an Order record with shipping information
-				//          Get the Order ID and save it in session variable.
 
 				else{
+					// error message if they are shopping outside of Singapore
 					echo "<div style='color:red'><b>Im sorry we currently do not send to $ShipCountry!</b></div>";
 					echo "<div style='color:red'><b>The order process has been stopped. You can return to the review order page to make amends </b></div>";
 					echo "<a href='reviewOrder.php'>return to review order</a></p>";
 					
-				//echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
-				//$conn->close();
+
 				}
 
 		
@@ -422,6 +388,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			
 			else 
 			{
+				// error message if they are shopping outside of Singapore
 				echo "<div style='color:red'><b>GetTransactionDetails failed:</b>".
 			                urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]).'</div>';
 				echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
@@ -432,6 +399,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 		else 
 		{
+			// error message if they are shopping outside of Singapore
 			echo "<div style='color:red'><b>Im sorry we currently do not send to $ShipCountry!</b></div>";
 			echo "<div style='color:red'><b>The order process has been stopped. You can return to the review order page to make amends </b></div>";
 			echo "<a href='reviewOrder.php'>return to review order</a></p>";
