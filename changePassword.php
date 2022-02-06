@@ -9,7 +9,6 @@ $qry = "SELECT Password FROM Shopper WHERE ShopperID = $ShopperID";
 $result = $conn->query($qry);
 $row = $result->fetch_array();
 $Password = $row["Password"];
-echo ($Password);
 if (isset($_SESSION["SuccessMessage"])) {
     unset($_SESSION["SuccessMessage"]);
 }
