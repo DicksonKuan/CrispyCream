@@ -83,16 +83,7 @@ if (isset($_SESSION["Cart"])){ //if a cart variable does exist in the session
             echo "<div class='col-sm-4'>";//right div for name and desc start
             //echo "<select style='text-align:center; padding-top:10px' name='Quantity' onChange='this.form.submit()'>";
             echo "<p id=orderedQuantity >You ordered $row[Quantity] of these!</p>";
-        //     for ($i = 1; $i <= 100; $i++){
-        //         if ($i == $row["Quantity"]){
-        //             $selected = "selected";
-        //         }
-        //         else{
-        //             $selected = "";
-        //         }
-                
-        //     }
-        //    // echo "</select>";
+
 
             echo "<form action='cartFunctions.php' method='post'>";
             echo "<input type='hidden' name='action' value='remove' />";
@@ -242,7 +233,7 @@ else{
 }
 
 echo "<br />";
-
+//display final prices so that the user knows how much each one of their shipping choices are
 echo "<hp>Subtotal ($finalQuantity Items) <br/> The final Price with Express Shipping : $$finalPriceExpress <br/> The final Price with Normal Shipping : $$finalPriceNormal </p>";
 
 echo "<br />";
