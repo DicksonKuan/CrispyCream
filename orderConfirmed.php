@@ -7,19 +7,22 @@ if(isset($_SESSION["OrderID"])){
 
     echo "<link rel='stylesheet' href='css/orderConfirmed.css'";
 
-
+// this page is displayed after the order has been made already 
+	
     // echo "<div class='col-sm-2'>";
     // echo "</div>";
     echo "<div class='col-sm-8'>";
 
     echo  "<div class='card'>";
 
+	//display the order number and other order details 
     echo "<p>Checkout successful. Your order number is $_SESSION[OrderID]</p>";
     
     echo "<p>Your order will be sent to $_SESSION[Address]</p>";
     echo "<p>The delivery day will be $_SESSION[deliverDate]";
     echo "<p>The delivery will have the message </br> '$_SESSION[msg]' ";
     
+	
     if ($_SESSION['radioVal'] == "express" ){
         echo "<p> Your delivery will be done through express shipping </p>";
         echo "<p> Order will arrive at $_SESSION[deliveryTime]</p>";
