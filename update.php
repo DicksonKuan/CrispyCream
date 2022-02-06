@@ -45,7 +45,7 @@ function validateForm()
 
 <div class="container">
 <h1 class="fw-bold mb-1 text-center">UPDATE PROFILE</h1>
-  <form name="register" action="updateMember.php" method="post" onsubmit="return validateForm()">
+  <form name="register" action="updateMember.php" method="post" onsubmit="return validateForm();">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="fullname" class="register-label">Full Name</label>
@@ -104,7 +104,7 @@ function validateForm()
     </div>
     <br>
     <div class="form-group">
-    <button type="submit" class="btn btn-lg btn-block" style="background-color: #00754e; color:white;">Update</button>
+    <button type="submit" type="button" class="btn btn-lg btn-block" style="background-color: #00754e; color:white;">Update</button>
     </div>
   </form>
   </br>

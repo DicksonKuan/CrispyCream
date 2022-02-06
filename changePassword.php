@@ -9,6 +9,7 @@ $qry = "SELECT Password FROM Shopper WHERE ShopperID = $ShopperID";
 $result = $conn->query($qry);
 $row = $result->fetch_array();
 $Password = $row["Password"];
+echo ($Password);
 if (isset($_SESSION["SuccessMessage"])) {
     unset($_SESSION["SuccessMessage"]);
 }
@@ -16,13 +17,15 @@ if (isset($_SESSION["ErrorMessage"])) {
     unset($_SESSION["ErrorMessage"]);
 }
 ?>
-<script>
-    function validate(){
-        if(document.passwordForm.oldpassword.value != <?php echo $Password ?>){
+<script type="text/javascript">
+    function validateForm()
+    {
+        var oldpass = document.passwordForm.oldpassword.value
+        if(oldpass != <?php echo $Password ?>){
             alert("Wrong Password!");
             return false;
         }
-        if(document.passwordForm.newpassword.value != document.passwordForm.repeatnewpassword.value){
+        if(document.passwordForm.newpassword.value != document.passwordForm.repeatpassword.value){
             alert("Passwords do not match!");
             return false;
         }
@@ -38,7 +41,7 @@ if (isset($_SESSION["ErrorMessage"])) {
             <div class="col-md-12 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
 
-              <form name="passwordForm" action="updatePassword.php" method="post" onsubmit="return validate()">
+              <form name="passwordForm" action="updatePassword.php" method="post" onsubmit="return validateForm()">
 
                   <div class="d-flex align-items-center mb-3 pb-1">
                     <h1 class="fw-bold mb-2">CHANGE PASSWORD</h1>
@@ -55,8 +58,8 @@ if (isset($_SESSION["ErrorMessage"])) {
                     <label class="form-label" for="newpassword">New Password</label>
                   </div>
                   <div class="form-outline mb-4">
-                    <input type="password" id="repeatnewpassword" name="repeatnewpassword" class="form-control form-control-lg" required/>
-                    <label class="form-label" for="repeatnewpassword">Repeat Password</label>
+                    <input type="password" id="repeatpassword" name="repeatpassword" class="form-control form-control-lg" required/>
+                    <label class="form-label" for="repeatpassword">Repeat Password</label>
                   </div>
                   <div class="pt-1 mb-4">
                     <button type="submit" class="btn btn-lg btn-block" type="button" style="background-color:#00754e; color:white;">Continue</button>
