@@ -68,7 +68,7 @@ if(isset($_SESSION["ShopperName"])) {
                     <a href="productCatalogue.php" class="nav-link" style="color: #00754e;" >PRODUCTS</a>
                 </li>
                 <li class="nav-item">
-                    <a href="shoppingCart.php" class="nav-link" style="color: #00754e;" >CART</a>
+                    <a href="reviewOrder.php" class="nav-link" style="color: #00754e;" >CART</a>
                 </li>
                 <?php echo $content2;?>
             </ul>
